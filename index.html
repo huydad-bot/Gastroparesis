@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ACG 2022 위마비 진료지침</title>
+<style>
+  :root {
+    --bg:#f6f8fa;--surface:#fff;--surface2:#f0f2f5;--border:#d0d7de;
+    --accent:#0969da;--accent2:#0550ae;--green:#1a7f37;--yellow:#9a6700;
+    --red:#cf222e;--orange:#bc4c00;--text:#1f2328;--text2:#57606a;
+    --teal:#0a7c8a;--purple:#5a3ea0;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Pretendard','Noto Sans KR',-apple-system,sans-serif;background:var(--bg);color:var(--text);font-size:13px;line-height:1.5;}
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 16px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;position:sticky;top:0;z-index:100;}
+  .header-inner{width:100%;max-width:960px;display:flex;flex-direction:column;align-items:center;gap:4px;}
+  .logo-badge{background:var(--orange);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:.5px;}
+  .tab-bar{display:flex;justify-content:center;background:var(--surface);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;}
+  .tab-bar::-webkit-scrollbar{display:none;}
+  .tab-bar-inner{width:100%;max-width:960px;display:flex;align-items:center;gap:2px;padding:0 4px;}
+  .tab{padding:7px 11px;font-size:11.5px;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:color .15s,border-color .15s;user-select:none;flex-shrink:0;}
+  .tab:hover{color:var(--text);}
+  .tab.active{color:var(--orange);border-bottom-color:var(--orange);}
+  .tab-abbr-wrap{display:flex;align-items:center;padding:4px 4px;margin-left:4px;flex-shrink:0;position:relative;}
+  .main{padding:12px 16px;max-width:960px;margin:0 auto;}
+  .panel{display:none;}
+  .panel.active{display:block;}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+  @media(max-width:680px){.grid2,.grid3{grid-template-columns:1fr;}}
+  .card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:10px;}
+  .card-header{background:var(--surface2);padding:8px 12px;font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;}
+  .card-header .toggle{font-size:13px;transition:transform .2s;}
+  .card-header.open .toggle{transform:rotate(180deg);}
+  .card-body{padding:10px 12px;}
+  .card-body.collapsed{display:none;}
+  .stat-row{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
+  .stat-box{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:10px 14px;flex:1;min-width:90px;text-align:center;}
+  .stat-val{font-size:18px;font-weight:700;color:var(--orange);}
+  .stat-lbl{font-size:10px;color:var(--text2);margin-top:2px;}
+  .rec-list{list-style:none;}
+  .rec-item{padding:7px 0;border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:flex-start;}
+  .rec-item:last-child{border-bottom:none;}
+  .rec-text{font-size:12px;color:var(--text);line-height:1.65;}
+  .rec-text strong{color:#1f2328;}
+  .badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;white-space:nowrap;flex-shrink:0;margin-top:1px;}
+  .badge-strong{background:#dafbe1;color:#116329;border:1px solid #1a7f37;}
+  .badge-cond{background:#fff8c5;color:#7a4b00;border:1px solid #d4a017;}
+  .badge-high{background:#dafbe1;color:#116329;border:1px solid #1a7f37;}
+  .badge-mod{background:#ddf4ff;color:var(--accent2);border:1px solid var(--accent2);}
+  .badge-low{background:#fff8c5;color:#7a4b00;border:1px solid #d4a017;}
+  .badge-vlow{background:#ffebe9;color:#82071e;border:1px solid var(--red);}
+  .badge-no{background:#f3e5f5;color:#5a3ea0;border:1px solid #5a3ea0;}
+  .alert{padding:8px 12px;border-radius:6px;font-size:12px;margin:8px 0;display:flex;gap:8px;align-items:flex-start;}
+  .alert-info{background:#ddf4ff;border-left:3px solid var(--accent2);color:#0550ae;}
+  .alert-warn{background:#fff8c5;border-left:3px solid #d4a017;color:#7a4b00;}
+  .alert-danger{background:#ffebe9;border-left:3px solid var(--red);color:#82071e;}
+  .alert-success{background:#dafbe1;border-left:3px solid var(--green);color:#116329;}
+  .alert-teal{background:#e0f5f5;border-left:3px solid var(--teal);color:#075050;}
+  .alert-orange{background:#fff3e0;border-left:3px solid var(--orange);color:#7a3500;}
+  .alert-purple{background:#f3e5f5;border-left:3px solid var(--purple);color:#5a3ea0;}
+  .tc-table{width:100%;border-collapse:collapse;font-size:11.5px;}
+  .tc-table th{background:var(--surface2);color:var(--text2);padding:5px 8px;font-size:10.5px;text-transform:uppercase;letter-spacing:.3px;font-weight:600;text-align:left;border-bottom:1px solid var(--border);}
+  .tc-table td{padding:5px 8px;border-bottom:1px solid var(--border);vertical-align:top;}
+  .tc-table tr:last-child td{border-bottom:none;}
+  .tc-table tr:hover td{background:rgba(0,0,0,.02);}
+  .acc{border:1px solid var(--border);border-radius:6px;margin-bottom:6px;overflow:hidden;}
+  .acc-hdr{background:var(--surface2);padding:7px 12px;font-size:12px;font-weight:600;color:var(--text);cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none;}
+  .acc-hdr:hover{background:#e8eaec;}
+  .acc-body{display:none;padding:10px 12px;font-size:12px;line-height:1.65;}
+  .flow-box{border:1px solid var(--border);border-radius:6px;background:var(--surface);padding:8px 12px;margin-bottom:6px;font-size:12px;line-height:1.6;}
+  .flow-arrow{text-align:center;color:var(--text2);font-size:14px;margin:2px 0;}
+  .step-num{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--orange);color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-right:6px;}
+  ul.dot{padding-left:18px;}
+  ul.dot li{margin-bottom:3px;font-size:12px;line-height:1.6;}
+  ol.num{padding-left:18px;}
+  ol.num li{margin-bottom:4px;font-size:12px;line-height:1.6;}
+  ::-webkit-scrollbar{width:5px;height:5px;}
+  ::-webkit-scrollbar-track{background:var(--bg);}
+  ::-webkit-scrollbar-thumb{background:#c8d0d9;border-radius:3px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div style="display:flex;align-items:center;gap:10px">
+      <span class="logo-badge">ACG 2022</span>
+      <h1 style="font-size:17px;font-weight:700;color:var(--text)">위마비 임상진료지침</h1>
+    </div>
+    <div style="text-align:center;line-height:1.5">
+      <span style="color:var(--text2);font-size:11px">ACG Clinical Guideline: Gastroparesis — American College of Gastroenterology</span><br>
+      <span style="font-size:10px;color:var(--text2)">Camilleri M, et al. · Am J Gastroenterol 2022;117(8):1197–1220 · doi: 10.14309/ajg.0000000000001874</span>
+    </div>
+    <div style="font-size:10px;color:var(--text2);font-style:italic;">This tool is not officially endorsed by the American College of Gastroenterology (ACG).</div>
+
+  </div>
+</header>
+
+<div class="tab-bar">
+  <div class="tab-bar-inner">
+    <div class="tab active" onclick="showTab('overview')">🏠 개요</div>
+    <div class="tab" onclick="showTab('diagnosis')">🔬 진단검사</div>
+    <div class="tab" onclick="showTab('diet')">🥗 식이·영양</div>
+    <div class="tab" onclick="showTab('pharma')">💊 약물치료</div>
+    <div class="tab" onclick="showTab('antiemetic')">🤢 제토제·신경조절</div>
+    <div class="tab" onclick="showTab('device')">⚡ 비약물 치료</div>
+    <div class="tab" onclick="showTab('pylorus')">🎯 유문부 시술</div>
+    <div class="tab" onclick="showTab('tables')">📁 임상시험표</div>
+    <div class="tab-abbr-wrap">
+      <div style="position:relative;display:flex;align-items:center;flex-shrink:0">
+        <span style="position:absolute;left:8px;color:var(--text2);font-size:12px;pointer-events:none">🔍</span>
+        <input id="abbr-input" type="text" placeholder="약어" oninput="filterAbbr(this.value)"
+          style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px 4px 26px;color:var(--text);font-size:12px;width:90px;outline:none;"
+          onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='var(--border)'">
+      </div>
+      <div id="abbr-dropdown" style="display:none;position:fixed;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;width:440px;max-height:360px;overflow-y:auto;z-index:300;box-shadow:0 8px 24px rgba(0,0,0,.12)">
+        <div id="abbr-grid-drop"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- ═══ OVERVIEW ═══ -->
+<div id="tab-overview" class="panel active">
+  <div class="stat-row">
+    <div class="stat-box"><div class="stat-val">20개</div><div class="stat-lbl">총 권고문 수</div></div>
+    <div class="stat-box"><div class="stat-val">4시간</div><div class="stat-lbl">표준 위배출 신티그라피 권장 시간</div></div>
+    <div class="stat-box"><div class="stat-val">&lt;1%</div><div class="stat-lbl">메토클로프라미드 지발성 운동장애 위험</div></div>
+    <div class="stat-box"><div class="stat-val">G-POEM</div><div class="stat-lbl">불응성 위마비 1차 선택 내시경 시술</div></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header open" onclick="toggleCard(this)">
+      <span>📋 진단·치료 전체 흐름 (Fig. 1 기반)</span><span class="toggle">▾</span>
+    </div>
+    <div class="card-body">
+      <div class="flow-box" style="border-left:3px solid var(--orange)">
+        <strong>① 위마비 증상 확인</strong><br>
+        <span style="color:var(--text2);font-size:11px">만성 오심, 구토, 식후 포만감, 팽만감, 상복부 불쾌감</span>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box" style="border-left:3px solid var(--red)">
+        <strong>② 기계적 폐쇄 배제</strong><br>
+        <span style="color:var(--text2);font-size:11px">상부 위장관 내시경 (EGD) 또는 방사선 검사</span>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box" style="border-left:3px solid var(--accent2)">
+        <strong>③ 위배출 지연 객관적 확인</strong><br>
+        <span style="font-size:11.5px">고체 식이 4시간 신티그라피 (표준) 또는 <sup>13</sup>C-spirulina 호기 검사 또는 무선 운동 캡슐</span>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box" style="border-left:3px solid var(--green)">
+        <strong>④ 식이 수정</strong><br>
+        <span style="font-size:11.5px">소입자·저지방·비소화성 식품 최소 식이</span>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box" style="border-left:3px solid var(--yellow)">
+        <strong>⑤ 약물치료</strong><br>
+        <span style="font-size:11.5px">위장관 촉진제 (메토클로프라미드, 돔페리돈, 5-HT4 효현제) + 제토제 (증상 조절)</span>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box" style="border-left:3px solid var(--teal)">
+        <strong>⑥ 영양 지원</strong><br>
+        <span style="font-size:11.5px">경장 영양 (공장 삽관) → 드물게 비경구 영양</span>
+      </div>
+      <div class="flow-arrow">↓</div>
+      <div class="flow-box" style="border-left:3px solid var(--purple)">
+        <strong>⑦ 비약물 치료 (불응성)</strong><br>
+        <span style="font-size:11.5px">G-POEM 또는 복강경 유문성형술 | 위 전기 자극 (GES) | 감압 위루관·공장루관</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <div class="card-header open" onclick="toggleCard(this)">
+        <span>📌 권고문 요약 (20개)</span><span class="toggle">▾</span>
+      </div>
+      <div class="card-body">
+        <ul class="rec-list">
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 1</strong> 당뇨 위마비: 혈당 최적화로 악화 위험 감소 <span style="color:var(--text2);font-size:10px">(Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-strong">강권고</span><span class="rec-text"><strong>Rec 2</strong> 신티그라피 위배출 검사 표준 — 고체 식이 3시간 이상 <span style="color:var(--text2);font-size:10px">(Moderate)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 3</strong> 방사선 불투과 표지자 검사 권고 안 함 <span style="color:var(--text2);font-size:10px">(Very Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 4</strong> 무선 운동 캡슐 — 신티그라피 대안 <span style="color:var(--text2);font-size:10px">(Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 5</strong> <sup>13</sup>C-spirulina 호기 검사 — 신뢰할 수 있는 검사 <span style="color:var(--text2);font-size:10px">(Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 6</strong> 소입자 식이로 증상 완화 및 위배출 향상 <span style="color:var(--text2);font-size:10px">(Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 7</strong> 약물치료 고려 (위배출 개선 + 증상 완화, 이득-위험 고려) <span style="color:var(--text2);font-size:10px">(Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 8</strong> 메토클로프라미드 — 불응성 증상 치료 <span style="color:var(--text2);font-size:10px">(Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 9</strong> 돔페리돈 — 승인 국가에서 사용 <span style="color:var(--text2);font-size:10px">(Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 10</strong> 5-HT4 효현제 — 위배출 개선 <span style="color:var(--text2);font-size:10px">(Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 11</strong> 제토제 — 증상 조절 (위배출은 개선 안 됨) <span style="color:var(--text2);font-size:10px">(Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-strong">강권고</span><span class="rec-text"><strong>Rec 12</strong> 중추 신경조절제 — 위마비 치료에 권고 안 함 <span style="color:var(--text2);font-size:10px">(Moderate)</span></span></li>
+          <li class="rec-item"><span class="badge badge-strong">강권고</span><span class="rec-text"><strong>Rec 13</strong> 그렐린 효현제 — 지지 안 함 <span style="color:var(--text2);font-size:10px">(Moderate)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 14</strong> 할로페리돌 — 지지 안 함 <span style="color:var(--text2);font-size:10px">(Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 15</strong> 위 전기 자극 (GES) — 인도적 사용기기로 고려 <span style="color:var(--text2);font-size:10px">(Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 16</strong> 침술 — 당뇨 위마비에서 단독 또는 촉진제 병용 유익 가능 <span style="color:var(--text2);font-size:10px">(Very Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 17</strong> Rikkunshito·STW5 (Iberogast) 한방 치료 — 권고 안 함 <span style="color:var(--text2);font-size:10px">(Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 18</strong> EndoFLIP — 유문 기능 평가·G-POEM 결과 예측에 역할 가능 <span style="color:var(--text2);font-size:10px">(Very Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-strong">강권고</span><span class="rec-text"><strong>Rec 19</strong> 보툴리눔 독소 유문부 주사 — RCT 근거로 권고 안 함 <span style="color:var(--text2);font-size:10px">(Moderate)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 20</strong> 유문근절개술 (G-POEM) — 약물 불응성 시 증상 조절 <span style="color:var(--text2);font-size:10px">(Low)</span></span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div>
+      <div class="card">
+        <div class="card-header open" onclick="toggleCard(this)">
+          <span>⚠️ GRADE 등급 체계</span><span class="toggle">▾</span>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-success"><span>✅</span><span><strong>강권고 (Recommendation)</strong> — 대부분의 환자가 받아야 할 처치</span></div>
+          <div class="alert alert-warn"><span>⚠️</span><span><strong>조건부 권고 (Suggestion)</strong> — 많은 환자에게 적합하나 일부는 다른 선택이 적합할 수 있음</span></div>
+          <table class="tc-table" style="margin-top:8px">
+            <tr><th>근거 수준</th><th>의미</th></tr>
+            <tr><td><span class="badge badge-high">높음</span></td><td>효과 추정에 대한 높은 확신</td></tr>
+            <tr><td><span class="badge badge-mod">중등</span></td><td>효과 추정에 대한 중등도 확신</td></tr>
+            <tr><td><span class="badge badge-low">낮음</span></td><td>효과 추정에 대한 제한적 확신</td></tr>
+            <tr><td><span class="badge badge-vlow">매우 낮음</span></td><td>효과 추정에 대한 매우 낮은 확신</td></tr>
+          </table>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header open" onclick="toggleCard(this)">
+          <span>🔑 핵심 개념</span><span class="toggle">▾</span>
+        </div>
+        <div class="card-body">
+          <div class="alert alert-orange"><span>ℹ️</span><span>위마비 = 기계적 폐쇄 없이 고체 음식의 위배출 지연이 객관적으로 확인된 운동장애 + 관련 증상</span></div>
+          <div class="alert alert-danger"><span>🚫</span><span><strong>오피오이드 절대 금기</strong> — 오피오이드 (트라마돌·타펜타돌 포함)는 위배출 및 유문 기능을 지연시켜 위마비를 악화시킨다. 위마비 통증에 오피오이드 사용 금지.</span></div>
+          <div class="alert alert-info"><span>📊</span><span>위마비 ↔ 기능성 소화불량(FD) 스펙트럼: 추적 신티그라피에서 42%(위마비)·37%(FD)가 재분류됨 — 진단 유동성 주의. FD는 예후 더 양호.</span></div>
+          <div class="alert alert-teal"><span>💡</span><span>미국에서 현재 FDA 승인 위마비 치료제: <strong>메토클로프라미드만</strong> 유일 (최대 12주, &lt;65세 제한).</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DIAGNOSIS ═══ -->
+<div id="tab-diagnosis" class="panel">
+  <div class="alert alert-orange"><span>🔬</span><span>기계적 폐쇄를 배제한 후 다양한 위배출 검사로 지연 여부를 객관적으로 확인한다.</span></div>
+
+  <div class="acc">
+    <div class="acc-hdr" onclick="toggleAcc(this)">
+      <span>Rec 2 — 신티그라피 위배출 검사 (표준) <span class="badge badge-strong" style="margin-left:6px">강권고</span><span class="badge badge-mod" style="margin-left:4px">Moderate</span></span><span>▾</span>
+    </div>
+    <div class="acc-body">
+      <div class="alert alert-success"><span>✅</span><span><strong>권고:</strong> 신티그라피 위배출 검사가 표준 검사. 고체 식이 3시간 이상 측정 권장.</span></div>
+      <ul class="dot" style="margin-top:8px">
+        <li>검사 전 48시간 동안 결과에 영향 줄 수 있는 약물 중단: 오피오이드, 카나비노이드, 촉진제, 제토제, 신경조절제</li>
+        <li>이상적으로는 4시간까지 측정 (3시간에 90% 이상 배출 확인되면 조기 종료 가능)</li>
+        <li>정상 기준: 255 kcal, 지방 2% Eggbeaters® 식이 → 4시간 잔여 &gt;10%를 지연 위배출 정의</li>
+        <li>최적 검사 방법 (고체 식이 + 3시간 이상)만이 증상과 유의한 연관: 오심 (OR 1.6), 구토 (OR 2.0), 복통 (OR 1.5), 조기 포만감 (OR 1.8)</li>
+        <li>EGD에서 위 음식 잔류 확인 = 위마비 진단 아님 (PPV 55%, 1형 당뇨에서만 79%)</li>
+      </ul>
+      <div class="alert alert-warn" style="margin-top:8px"><span>⚠️</span><span>위마비와 FD는 스펙트럼 — 반복 신티그라피 시 42% 위마비 환자가 FD로, 37% FD가 위마비로 재분류됨.</span></div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-hdr" onclick="toggleAcc(this)">
+      <span>Rec 3 — 방사선 불투과 표지자 권고 안 함 <span class="badge badge-cond" style="margin-left:6px">조건부</span><span class="badge badge-vlow" style="margin-left:4px">Very Low</span></span><span>▾</span>
+    </div>
+    <div class="acc-body">
+      <div class="alert alert-danger"><span>🚫</span><span>방사선 불투과 표지자(ROM) 검사는 위마비 진단에 권고하지 않는다.</span></div>
+      <p style="font-size:12px;margin-top:6px">ROM 민감도 34%, 특이도 97% — 증상 중증도와 상관관계 없음. 신티그라피가 소화성 고체 음식 배출을 더 정확히 반영.</p>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-hdr" onclick="toggleAcc(this)">
+      <span>Rec 4 — 무선 운동 캡슐 (WMC) <span class="badge badge-cond" style="margin-left:6px">조건부</span><span class="badge badge-low" style="margin-left:4px">Low</span></span><span>▾</span>
+    </div>
+    <div class="acc-body">
+      <div class="alert alert-info"><span>💊</span><span>WMC는 신티그라피의 대안 검사로 사용 가능하다.</span></div>
+      <div class="grid2" style="margin-top:8px">
+        <div>
+          <p style="font-size:12px;font-weight:600;margin-bottom:4px">WMC 장점</p>
+          <ul class="dot">
+            <li>위 수축 진폭 측정 가능 (pH 변화로 유문 통과 시점 확인)</li>
+            <li>전 소화관 통과 평가 가능 (위 + 소장 + 대장)</li>
+            <li>장관 근병증 또는 중증 전정부 저운동증 식별</li>
+          </ul>
+        </div>
+        <div>
+          <p style="font-size:12px;font-weight:600;margin-bottom:4px">WMC 주의사항</p>
+          <ul class="dot">
+            <li>신티그라피와 전체 일치율 75.7% (kappa=0.42)</li>
+            <li>비당뇨 환자: WMC 33.3% vs 신티그라피 17.1% 지연 검출</li>
+            <li>당뇨 환자: 신티그라피 41.7% vs WMC 17.1% 지연 검출</li>
+            <li>위마비 의심 환자의 45.6%에서 위 외 통과 지연: 소장 22.8%, 대장 31.5%</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-hdr" onclick="toggleAcc(this)">
+      <span>Rec 5 — <sup>13</sup>C-spirulina 호기 검사 <span class="badge badge-cond" style="margin-left:6px">조건부</span><span class="badge badge-low" style="margin-left:4px">Low</span></span><span>▾</span>
+    </div>
+    <div class="acc-body">
+      <div class="alert alert-teal"><span>💨</span><span>안정 동위원소 위배출 호기 검사 (GEBT)는 신뢰할 수 있는 위마비 검사다.</span></div>
+      <ul class="dot" style="margin-top:8px">
+        <li>신티그라피와 동시 측정으로 검증 완료 (건강인 및 환자 모두)</li>
+        <li>80% 특이도 기준: 45+180분 조합 → 빠른 GE 93% 민감도; 150+180분 조합 → 지연 GE 89% 민감도</li>
+        <li>방사선 노출 없음, 소아에도 승인</li>
+        <li>방사선 차폐 시설 불필요 — 접근성 우수</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header open" onclick="toggleCard(this)">
+      <span>📊 진단 검사 비교 요약</span><span class="toggle">▾</span>
+    </div>
+    <div class="card-body">
+      <table class="tc-table">
+        <tr><th>검사</th><th>권고</th><th>장점</th><th>단점/주의</th></tr>
+        <tr><td><strong>신티그라피 (4h 고체)</strong></td><td><span class="badge badge-strong">강권고 표준</span></td><td>가장 많은 검증, 증상 연관 최고</td><td>방사선 노출, 시간 소요 (4시간)</td></tr>
+        <tr><td><strong><sup>13</sup>C 호기 검사</strong></td><td><span class="badge badge-cond">조건부</span></td><td>방사선 없음, 소아 가능, 접근 용이</td><td>신티그라피보다 검증 데이터 적음</td></tr>
+        <tr><td><strong>무선 운동 캡슐</strong></td><td><span class="badge badge-cond">대안</span></td><td>전 소화관 평가, 압력 측정 가능</td><td>신티그라피와 불일치 (당뇨에서 특히)</td></tr>
+        <tr><td>방사선 불투과 표지자</td><td><span class="badge badge-no">권고 안 함</span></td><td>—</td><td>민감도 34%, 증상 연관 없음</td></tr>
+        <tr><td>전위식 심전도 (EGG)</td><td>연구 목적</td><td>위 전기 활동 평가</td><td>임상적 유의성 미확립</td></tr>
+        <tr><td>전층 생검</td><td>연구 목적만</td><td>병인 이해, 바이오마커</td><td>일상 사용 권고 안 함</td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DIET ═══ -->
+<div id="tab-diet" class="panel">
+  <div class="acc">
+    <div class="acc-hdr" onclick="toggleAcc(this)">
+      <span>Rec 6 — 소입자 식이 <span class="badge badge-cond" style="margin-left:6px">조건부</span><span class="badge badge-low" style="margin-left:4px">Low</span></span><span>▾</span>
+    </div>
+    <div class="acc-body">
+      <div class="alert alert-success"><span>🥗</span><span><strong>권고:</strong> 위마비의 식이 관리는 소입자 식이를 포함해야 한다 — 증상 완화 가능성 증가 및 위배출 향상.</span></div>
+      <ul class="dot" style="margin-top:8px">
+        <li>소입자·저지방 식이가 일반 식이보다 유의하게 더 잘 耐受됨</li>
+        <li>당뇨 위마비: 소입자 식이 → 위배출 가속 + 혈당 조절 개선</li>
+        <li>회피/제한적 식이 섭취 장애 (ARFID) 증상이 위마비 환자에서 빈번 → 섭식 장애 동반 평가 필요</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header open" onclick="toggleCard(this)">
+      <span>🥗 단계적 영양 지원 전략</span><span class="toggle">▾</span>
+    </div>
+    <div class="card-body">
+      <div class="flow-box" style="border-left:3px solid var(--green)">
+        <strong>1단계: 경구 식이 수정</strong><br>
+        소입자, 저지방, 비소화성 음식 최소화 / 소량 빈번 식사 / 유동식 위주
+      </div>
+      <div class="flow-arrow">↓ 경구 섭취 불충분 시</div>
+      <div class="flow-box" style="border-left:3px solid var(--yellow)">
+        <strong>2단계: 공장 경관 영양 (Jejunostomy tube)</strong><br>
+        공장 삽관 전 경구 식이 + 공장 영양의 시행 → 경구 섭취 및 운동성 유의한 개선<br>
+        <span style="font-size:11px;color:var(--text2)">※ 경피 내시경 위루관 + 공장 연장 (PEG-J): 위장으로의 역류 방지 위해 커넥터 봉합·풍선 경위 공장 급식 장치 변형 적용</span>
+      </div>
+      <div class="flow-arrow">↓ 고도 진행 사례</div>
+      <div class="flow-box" style="border-left:3px solid var(--red)">
+        <strong>3단계: 완전 비경구 영양 (TPN)</strong><br>
+        15년 생존율 68% (경구 + TPN 병용이 더 높은 생존율)<br>
+        이환율·사망률 감소를 위해 경구 섭취 유지·재개를 우선 목표로 해야 함
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header open" onclick="toggleCard(this)">
+      <span>🍽️ 위마비 식이 실용 지침</span><span class="toggle">▾</span>
+    </div>
+    <div class="card-body">
+      <div class="grid2">
+        <div>
+          <p style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:6px">✅ 권장 식이</p>
+          <ul class="dot">
+            <li>소입자 또는 갈아서 조리한 음식</li>
+            <li>저지방 식품 (지방 &lt;40 g/일)</li>
+            <li>소량 빈번 식사 (4–6회/일)</li>
+            <li>충분한 수분 섭취</li>
+            <li>영양 보충 음료 (액체 칼로리)</li>
+            <li>부드러운 익힌 채소·과일</li>
+          </ul>
+        </div>
+        <div>
+          <p style="font-size:12px;font-weight:700;color:var(--red);margin-bottom:6px">🚫 피해야 할 식품</p>
+          <ul class="dot">
+            <li>고지방 음식 (지방 함량 높은 식품)</li>
+            <li>고섬유 비소화성 음식 (생채소, 껍질 있는 과일)</li>
+            <li>탄산음료</li>
+            <li>알코올</li>
+            <li>대량 식사</li>
+            <li>취침 직전 식사</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PHARMA ═══ -->
+<div id="tab-pharma" class="panel">
+  <div class="alert alert-orange"><span>💊</span><span>권고문 7–10: 위장관 촉진제 사용. 미국에서 현재 FDA 승인 위마비 치료제는 메토클로프라미드만 (최대 12주, 65세 미만).</span></div>
+
+  <div class="acc">
+    <div class="acc-hdr" onclick="toggleAcc(this)">
+      <span>Rec 7 — 약물치료 일반 원칙 <span class="badge badge-cond" style="margin-left:6px">조건부</span><span class="badge badge-low" style="margin-left:4px">Low</span></span><span>▾</span>
+    </div>
+    <div class="acc-body">
+      <div class="alert alert-teal"><span>💊</span><span>특발성·당뇨 위마비에서 약물치료는 위배출 개선 및 증상 완화를 위해 이득-위험을 고려하여 시도해야 한다.</span></div>
+      <p style="font-size:12px;margin-top:6px"><strong>약물 반응 예측 인자:</strong></p>
+      <div class="grid2" style="margin-top:6px">
+        <div>
+          <div class="alert alert-success"><span>✅</span><span><strong>반응 좋은 군:</strong> 바이러스성·소화불량성 특발성, 파킨슨병, 당뇨 환자 대다수</span></div>
+        </div>
+        <div>
+          <div class="alert alert-danger"><span>🚫</span><span><strong>반응 불량 군:</strong> 미주신경 절제 후, 결합조직병, 미주 신경병증 당뇨, 신체적·성적 학대 병력 복통 주도형 특발성</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-hdr" onclick="toggleAcc(this)">
+      <span>Rec 8 — 메토클로프라미드 <span class="badge badge-cond" style="margin-left:6px">조건부</span><span class="badge badge-low" style="margin-left:4px">Low</span></span><span>▾</span>
+    </div>
+    <div class="acc-body">
+      <div class="alert alert-warn"><span>⚠️</span><span><strong>권고:</strong> 불응성 위마비 증상에서 치료 안 함보다 메토클로프라미드 사용을 권고. <strong>FDA Black Box 경고</strong>: 지발성 운동장애 위험.</span></div>
+      <div class="grid2" style="margin-top:8px">
+        <div>
+          <p style="font-size:12px;font-weight:600;margin-bottom:4px">효능 근거</p>
+          <ul class="dot">
+            <li>당뇨 위마비에서 다수 RCT로 증상 개선 및 위배출 가속 확인</li>
+            <li>비강 스프레이 제형 (10 mg, 20 mg): 경구 10 mg 대비 증상 점수 개선</li>
+            <li>비강 스프레이: 여성 당뇨 환자에서 효과적, 남성에서는 효과 없음</li>
+            <li>경구 10 mg qid → 증상 약 29% 개선</li>
+          </ul>
+        </div>
+        <div>
+          <p style="font-size:12px;font-weight:600;margin-bottom:4px">안전성·제한</p>
+          <ul class="dot">
+            <li><strong>지발성 운동장애 위험: ~0.1%/1000 인년</strong> (이전 1–10% 추정보다 훨씬 낮음)</li>
+            <li>FDA 제한: &lt;12주 사용, &lt;65세, 10 mg 3–4회/일 초과 금지</li>
+            <li>고위험군: 노인 여성, 당뇨, 간·신부전, 항정신병약 병용</li>
+            <li>주요 부작용: 안절부절, 졸음, 피로 (약 10%), 이상 운동증</li>
+            <li>비강 스프레이: 미각 이상, 두통, 피로</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-hdr" onclick="toggleAcc(this)">
+      <span>Rec 9 — 돔페리돈 <span class="badge badge-cond" style="margin-left:6px">조건부</span><span class="badge badge-low" style="margin-left:4px">Low</span></span><span>▾</span>
+    </div>
+    <div class="acc-body">
+      <div class="alert alert-info"><span>💊</span><span><strong>권고:</strong> 돔페리돈이 승인된 국가에서 증상 관리에 사용을 권고. 미국에서는 FDA 특별 프로그램을 통해서만 사용 가능.</span></div>
+      <ul class="dot" style="margin-top:8px">
+        <li>특발성·당뇨·수술 후 위마비 모두에서 증상 개선 확인</li>
+        <li>4개 연구에서 위배출 가속 확인 (위약 또는 기저치 대비)</li>
+        <li>메토클로프라미드와 유사한 효능, 추체외로 부작용은 적음 (BBB 통과 안 함)</li>
+        <li>NIH 위마비 컨소시엄 748명 코호트: 돔페리돈 사용군이 GCSI 총점, 오심, 포만감, 상복부 통증, GERD 점수, PAGI-QOL 더 유의하게 개선</li>
+        <li>부작용: 프로락틴 상승 (100%), QT 연장 위험 (심장 모니터링 권고)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-hdr" onclick="toggleAcc(this)">
+      <span>Rec 10 — 5-HT4 효현제 <span class="badge badge-cond" style="margin-left:6px">조건부</span><span class="badge badge-low" style="margin-left:4px">Low</span></span><span>▾</span>
+    </div>
+    <div class="acc-body">
+      <div class="alert alert-teal"><span>💊</span><span><strong>권고:</strong> 위배출 개선을 위해 5-HT4 효현제를 치료 안 함보다 권고. 단, 증상 개선 데이터는 일관성 부족.</span></div>
+      <table class="tc-table" style="margin-top:8px">
+        <tr><th>약물</th><th>연구 결과</th><th>상태</th></tr>
+        <tr><td><strong>프루칼로프리드</strong> 2 mg/일</td><td>특발성 GP에서 GCSI 총점·위배출 T½ 유의한 개선; 당뇨 GP에서는 위배출만 개선</td><td>임상 사용 가능 (변비 적응증)</td></tr>
+        <tr><td><strong>벨루세트라그</strong></td><td>5, 15, 30 mg 모든 용량에서 위배출 T½ 감소</td><td>임상시험 단계</td></tr>
+        <tr><td><strong>펠시세트라그</strong></td><td>위배출·소장 통과·상행결장 배출 유의한 가속</td><td>임상시험 단계</td></tr>
+        <tr><td>레벡세프리드</td><td>위배출 개선 없음, 위약 대비 증상 차이 없음</td><td>효과 불충분</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header open" onclick="toggleCard(this)">
+      <span>💊 모틸리드 (마크로라이드) 촉진제</span><span class="toggle">▾</span>
+    </div>
+    <div class="card-body">
+      <div class="alert alert-warn"><span>⏱️</span><span>모틸린 효현제는 단기(1–4주)만 사용 — 내성(탈감작) 발생으로 장기 효과 없음.</span></div>
+      <table class="tc-table" style="margin-top:8px">
+        <tr><th>약물</th><th>용량</th><th>효과</th><th>비고</th></tr>
+        <tr><td><strong>에리스로마이신</strong></td><td>200 mg IV, 250 mg po tid</td><td>위배출 가속 효과 가장 강력 (2시간 잔여 63% → 4%)</td><td>IV 효과 &gt; 경구; 단기만</td></tr>
+        <tr><td>아지스로마이신</td><td>250 mg IV</td><td>에리스로마이신과 동등한 GE 가속 효과</td><td>에리스로마이신 대안</td></tr>
+        <tr><td>클라리스로마이신</td><td>경구</td><td>증상·GE 개선</td><td>모틸린 효현제</td></tr>
+      </table>
+      <div class="alert alert-info" style="margin-top:8px"><span>✅</span><span>33개 연구·2260만 명 메타분석: 마크로라이드 사용은 부정맥·심혈관 사망 위험과 무관.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ ANTIEMETIC ═══ -->
+<div id="tab-antiemetic" class="panel">
+  <div class="alert alert-orange"><span>🤢</span><span>권고문 11–14: 제토제 및 중추 신경조절제 — 증상 조절 목적이나 위배출 개선 효과 없음.</span></div>
+
+  <div class="acc">
+    <div class="acc-hdr" onclick="toggleAcc(this)">
+      <span>Rec 11 — 제토제 (증상 조절) <span class="badge badge-cond" style="margin-left:6px">조건부</span><span class="badge badge-low" style="margin-left:4px">Low</span></span><span>▾</span>
+    </div>
+    <div class="acc-body">
+      <div class="alert alert-teal"><span>💊</span><span>제토제는 증상 조절에 권고. 단, 위배출은 개선하지 않는다.</span></div>
+      <table class="tc-table" style="margin-top:8px">
+        <tr><th>약물</th><th>근거</th><th>주요 결과</th></tr>
+        <tr><td><strong>트라디피탄트</strong> (NK-1 길항제) 85 mg bid</td><td>RCT (152명 IG+DG)</td><td>4주 후 오심 점수 1.2 유의한 감소; GCSI &gt;1점 개선 46.6% vs 위약 23.5%</td></tr>
+        <tr><td>아프레피탄트 (NK-1 길항제) 125 mg/일</td><td>RCT (126명)</td><td>1차 결과 (오심) 차이 없음; 2차: 오심·구토·전체 증상 중증도 유의 감소</td></tr>
+        <tr><td>온단세트론 (5-HT3 길항제)</td><td>환자 설문</td><td>마리화나·온단세트론·프로메타진이 가장 효과적이라고 환자 인식</td></tr>
+        <tr><td>프로메타진</td><td>환자 설문</td><td>높은 GCSI 환자에서 더 효과적</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-hdr" onclick="toggleAcc(this)">
+      <span>Rec 12 — 중추 신경조절제 권고 안 함 <span class="badge badge-strong" style="margin-left:6px">강권고</span><span class="badge badge-mod" style="margin-left:4px">Moderate</span></span><span>▾</span>
+    </div>
+    <div class="acc-body">
+      <div class="alert alert-danger"><span>🚫</span><span><strong>강권고:</strong> 중추 신경조절제(항우울제 등)는 위마비 치료에 권고하지 않는다.</span></div>
+      <ul class="dot" style="margin-top:8px">
+        <li><strong>노르트리프틸린 (NORIG RCT, 130명 특발성 GP):</strong> 15주 후 1차 결과 (GCSI 50% 감소) 위약 대비 차이 없음. 치료 중단율: 노르트리프틸린 29% vs 위약 9%</li>
+        <li>아미트리프틸린 50 mg/일: 기능성 소화불량에서 위배출 지연 없음 → 위배출 악화는 없으나 치료 효과도 없음</li>
+        <li>추가 RCT 필요하나 현재 근거로는 위마비 치료에 권고 불가</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-hdr" onclick="toggleAcc(this)">
+      <span>Rec 13 — 그렐린 효현제 지지 안 함 <span class="badge badge-strong" style="margin-left:6px">강권고</span><span class="badge badge-mod" style="margin-left:4px">Moderate</span></span><span>▾</span>
+    </div>
+    <div class="acc-body">
+      <div class="alert alert-danger"><span>🚫</span><span>현재 데이터는 그렐린 효현제 (레라모렐린 등)의 위마비 치료 사용을 지지하지 않는다.</span></div>
+      <ul class="dot" style="margin-top:8px">
+        <li>레라모렐린 10 µg bid (12주 RCT, 393명 당뇨 GP): 구토 빈도 75% 감소 목표 달성 실패 (위약 대비 NS). 단, 구토 기저치 있는 환자에서 위배출 가속·증상 개선 확인</li>
+        <li>메타분석 (6개 RCT): 당뇨 GP에서 표준화 평균 차 -0.34 — 전체 증상 유의 개선 및 오심·구토·조기 포만감·복통 개선</li>
+        <li>부작용: 레라모렐린에서 혈당 조절 장애</li>
+        <li>추가 대규모 RCT 필요</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-hdr" onclick="toggleAcc(this)">
+      <span>Rec 14 — 할로페리돌 지지 안 함 <span class="badge badge-cond" style="margin-left:6px">조건부</span><span class="badge badge-low" style="margin-left:4px">Low</span></span><span>▾</span>
+    </div>
+    <div class="acc-body">
+      <div class="alert alert-warn"><span>⚠️</span><span>현재 데이터는 할로페리돌의 위마비 치료 사용을 지지하지 않는다.</span></div>
+      <p style="font-size:12px;margin-top:6px">응급실 RCT (33명): 통증·오심 점수 개선 확인 → 위마비 증상 완화가 아닌 응급실 내 증상 조절 및 모르핀 사용 감소에 대한 근거일 뿐, 위마비 치료 효과가 아님.</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header open" onclick="toggleCard(this)">
+      <span>🚫 오피오이드 사용 금기</span><span class="toggle">▾</span>
+    </div>
+    <div class="card-body">
+      <div class="alert alert-danger"><span>🚫</span><span>위마비 통증에 오피오이드 (트라마돌·타펜타돌 포함) 사용을 강력 금지한다.</span></div>
+      <ul class="dot" style="margin-top:8px">
+        <li>오피오이드는 위배출 지연 및 유문 기능 장애를 유발 — 위마비를 악화시킨다</li>
+        <li>강력 오피오이드 사용 → 위마비 더 나쁜 예후와 연관</li>
+        <li>트라마돌: 구강-맹장 통과 지연 / 타펜타돌: 위배출 지연 (건강인 RCT 확인)</li>
+        <li>위마비 관련 통증 치료에 대한 임상시험 데이터 실질적으로 없음 → 중추 신경조절제 및 카나비스 사용을 해당 논문에서 다룸 (이 지침 범위 외)</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ DEVICE ═══ -->
+<div id="tab-device" class="panel">
+  <div class="alert alert-orange"><span>⚡</span><span>권고문 15–17: 비약물 치료 — 위 전기 자극, 침술, 한방 치료</span></div>
+
+  <div class="acc">
+    <div class="acc-hdr" onclick="toggleAcc(this)">
+      <span>Rec 15 — 위 전기 자극 (GES) <span class="badge badge-cond" style="margin-left:6px">조건부</span><span class="badge badge-low" style="margin-left:4px">Low</span></span><span>▾</span>
+    </div>
+    <div class="acc-body">
+      <div class="alert alert-teal"><span>⚡</span><span><strong>권고:</strong> GES는 인도적 사용기기 (HUD)로 위마비 증상 조절에 고려 가능. 약물 불응성 당뇨 또는 특발성 위마비에 FDA HUD 승인.</span></div>
+      <div class="grid2" style="margin-top:8px">
+        <div>
+          <p style="font-size:12px;font-weight:600;margin-bottom:4px">임상 근거 (긍정적)</p>
+          <ul class="dot">
+            <li>무작위 교차 시험 (172명): 구토 빈도 유의 감소, 오심·식욕 개선 (ON vs OFF)</li>
+            <li>당뇨 GP에서 6주 치료: 구토·증상 유의 감소</li>
+            <li>성향 매칭: GES 치료군에서 위마비 증상 임상적으로 유의한 개선</li>
+            <li>장기 연구 (45개월): 증상·입원·약물 사용 유의하게 감소</li>
+            <li>당뇨 GP에서 HbA1c 9.5% → 7.9% 개선</li>
+          </ul>
+        </div>
+        <div>
+          <p style="font-size:12px;font-weight:600;margin-bottom:4px">제한·주의사항</p>
+          <ul class="dot">
+            <li>메타분석: 무작위 교차 시험에서 ON/OFF 기간 TSS 차이 없음 (공개 연구에서는 개선)</li>
+            <li>시험 설계 이질성으로 결과 해석 한계</li>
+            <li>위배출에는 일관적 효과 없음</li>
+            <li>기기 제거·재삽입율 8.3%</li>
+            <li>당뇨 GP에서 효과가 특발성보다 더 일관적</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-hdr" onclick="toggleAcc(this)">
+      <span>Rec 16 — 침술 <span class="badge badge-cond" style="margin-left:6px">조건부</span><span class="badge badge-vlow" style="margin-left:4px">Very Low</span></span><span>▾</span>
+    </div>
+    <div class="acc-body">
+      <div class="alert alert-warn"><span>🪡</span><span><strong>권고:</strong> 침술 단독 또는 촉진제 병용은 당뇨 위마비의 증상 조절에 유익할 수 있다. 다른 원인의 위마비에는 권고 안 함.</span></div>
+      <ul class="dot" style="margin-top:8px">
+        <li>RCT (25명 당뇨 GP): 실제 침술이 가짜 침술보다 2·4시간 위 잔류 및 GCSI 점수 유의 감소</li>
+        <li>침술 vs 메토클로프라미드: 수술 후 위마비에서 침술 치유율 90.6% vs 메토클로프라미드 32.3%</li>
+        <li>코크란 메타분석 (32개 연구, 2,601명): 저확실성 근거 — 3개월 기준 가짜 침술 대비 증상 점수 차이 없음; 촉진제 대비 개선 매우 낮은 확실성 근거</li>
+        <li>중국 한방 Banxiaxiexin 탕 메타분석 (1,302명): 위약보다 유의 우월 (RR 1.23) — 방법론적 질 낮음</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-hdr" onclick="toggleAcc(this)">
+      <span>Rec 17 — 한방 치료 권고 안 함 <span class="badge badge-cond" style="margin-left:6px">조건부</span><span class="badge badge-low" style="margin-left:4px">Low</span></span><span>▾</span>
+    </div>
+    <div class="acc-body">
+      <div class="alert alert-danger"><span>🚫</span><span>Rikkunshito 또는 STW5 (Iberogast)와 같은 한방 치료는 위마비 치료에 권고하지 않는다.</span></div>
+      <ul class="dot" style="margin-top:8px">
+        <li>STW5 RCT (103명 FD·GP): 위배출 호기 검사 효과 없음. 증상 개선 경향 (P=0.03)이나 위배출 개선 없음</li>
+        <li>마리화나: 환자 설문에서 오심에 가장 효과적이라고 인식되나 임상 근거 부족</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header open" onclick="toggleCard(this)">
+      <span>🔬 면역치료·기타 신규 치료</span><span class="toggle">▾</span>
+    </div>
+    <div class="card-body">
+      <div class="alert alert-info"><span>🧬</span><span>자가면역 이상이 있는 약물·기기 불응성 위마비에서 면역요법 효과를 시사하는 소규모 연구 있음 — 일상 임상 사용을 지지하는 충분한 근거 없음.</span></div>
+      <ul class="dot" style="margin-top:8px">
+        <li>IVIg (400 mg/kg 주 1회 12주): 14명 중 9명 (64%)에서 오심·구토·조기 포만감·복통 유의 개선</li>
+        <li>미코페놀레이트 모페틸·메틸프레드니솔론 병용: 혈청학적·조직학적 면역 이상이 있는 환자에서 제한적 개선</li>
+        <li>CNSA-001 (세피아프테린, PTC923): 당뇨 GP 여성에서 BH-4 경로 표적 — Phase II 연구, 추가 확인 필요</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PYLORUS ═══ -->
+<div id="tab-pylorus" class="panel">
+  <div class="alert alert-orange"><span>🎯</span><span>권고문 18–20: 유문부 기능 평가 및 시술적 치료 — 약물 불응성 위마비에서의 유문 중심 접근</span></div>
+
+  <div class="acc">
+    <div class="acc-hdr" onclick="toggleAcc(this)">
+      <span>Rec 18 — EndoFLIP <span class="badge badge-cond" style="margin-left:6px">조건부</span><span class="badge badge-vlow" style="margin-left:4px">Very Low</span></span><span>▾</span>
+    </div>
+    <div class="acc-body">
+      <div class="alert alert-teal"><span>🔬</span><span><strong>권고:</strong> EndoFLIP은 유문 기능 특성화 및 G-POEM 치료 결과 예측에 역할 가능.</span></div>
+      <div class="grid2" style="margin-top:8px">
+        <div>
+          <p style="font-size:12px;font-weight:600;margin-bottom:4px">EndoFLIP 주요 소견</p>
+          <ul class="dot">
+            <li>위마비에서 공복 유문 순응도 감소: 25.2 (정상) vs 16.9 mm/mmHg (위마비)</li>
+            <li>위배출 지연이 있는 환자에서 유문 팽창성지수 (DI) 유의 감소</li>
+            <li>고조기 포만감·식후 포만감은 유문 직경·단면적과 역상관</li>
+          </ul>
+        </div>
+        <div>
+          <p style="font-size:12px;font-weight:600;margin-bottom:4px">G-POEM 결과 예측</p>
+          <ul class="dot">
+            <li>G-POEM 성공군에서 술 후 CSA·DI 유의 상승</li>
+            <li>50 mL EndoFLIP 팽창 기준 DI &gt;9.2 mm²/mmHg: 특이도 100%, 민감도 72.2%</li>
+            <li>유문 팽창성 &lt;10 mm²/mmHg: 보툴리눔 독소 주사에 3개월 반응 예측</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-hdr" onclick="toggleAcc(this)">
+      <span>Rec 19 — 보툴리눔 독소 유문부 주사 권고 안 함 <span class="badge badge-strong" style="margin-left:6px">강권고</span><span class="badge badge-mod" style="margin-left:4px">Moderate</span></span><span>▾</span>
+    </div>
+    <div class="acc-body">
+      <div class="alert alert-danger"><span>🚫</span><span><strong>강권고:</strong> RCT 근거를 바탕으로 일반적 위마비 환자에게 유문부 보툴리눔 독소 주사를 권고하지 않는다.</span></div>
+      <ul class="dot" style="margin-top:8px">
+        <li>2개 RCT에서 위약 대비 효과 없음 확인</li>
+        <li>단, 최근 프랑스 대규모 다기관 연구: 유문 팽창성 측정으로 <strong>환자 선별 시</strong> 보툴리눔 독소가 구토 완화에 효과적</li>
+        <li>즉, EndoFLIP으로 유문 팽창성이 낮은 환자 선별 시 효과 가능 → 선별 없이 일반 사용은 권고 안 함</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="acc">
+    <div class="acc-hdr" onclick="toggleAcc(this)">
+      <span>Rec 20 — G-POEM (경구 내시경 유문근절개술) <span class="badge badge-cond" style="margin-left:6px">조건부</span><span class="badge badge-low" style="margin-left:4px">Low</span></span><span>▾</span>
+    </div>
+    <div class="acc-body">
+      <div class="alert alert-success"><span>✅</span><span><strong>권고:</strong> 약물 불응성 위마비에서 치료 안 함보다 유문근절개술 (G-POEM)을 권고.</span></div>
+      <div class="grid2" style="margin-top:8px">
+        <div>
+          <p style="font-size:12px;font-weight:600;margin-bottom:4px">G-POEM 효능</p>
+          <ul class="dot">
+            <li>메타분석 (14개 연구, 276명): 위배출 정상화율 61.3%; 증상 개선율 88.2%</li>
+            <li>GCSI 개선율: 1개월 90.2% → 3개월 83.3% → 6개월 70.3% → 12개월 52.4%</li>
+            <li>1년 성공률 56–65.8%</li>
+            <li>샴 대조 RCT: G-POEM이 6개월 후 증상 및 위배출 개선 확인</li>
+          </ul>
+        </div>
+        <div>
+          <p style="font-size:12px;font-weight:600;margin-bottom:4px">안전성 및 비교</p>
+          <ul class="dot">
+            <li>전체 이상반응률 6.8–12% (캡노복강·점막 손상·출혈 등)</li>
+            <li>수술 유문성형술과 효능 동등 (G-POEM 75.8% vs 수술 77.3% 임상 성공)</li>
+            <li>복강경 유문성형술 대비: 입원 기간↓, 수술 시간↓, 합병증↓</li>
+            <li>GES 이후 G-POEM 추가 시행 안전·효과적</li>
+          </ul>
+        </div>
+      </div>
+      <div class="alert alert-info" style="margin-top:8px"><span>ℹ️</span><span>하이네케-미쿨리츠 유문성형술 (177명): 위배출 90% 개선, 단기 증상 개선. 그러나 이환율 6.8% (누출·추가 수술 등) — G-POEM에 의해 대체되는 추세.</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TABLES ═══ -->
+<div id="tab-tables" class="panel">
+  <div class="card">
+    <div class="card-header open" onclick="toggleCard(this)">
+      <span>💊 메토클로프라미드 임상시험 요약 (Table 3)</span><span class="toggle">▾</span>
+    </div>
+    <div class="card-body">
+      <table class="tc-table">
+        <tr><th>연구</th><th>설계</th><th>대상(N)</th><th>용량</th><th>기간</th><th>주요 결과</th></tr>
+        <tr><td>Snape 1982</td><td>DB PC XO RCT</td><td>10 당뇨</td><td>10 mg qid</td><td>3주/군</td><td>증상·구토 개선, 액체 GE 약 60% 가속</td></tr>
+        <tr><td>McCallum 1983</td><td>PC RCT</td><td>18 DG</td><td>10 mg qid</td><td>3주</td><td>증상 점수 29%, GE 25% 개선</td></tr>
+        <tr><td>Patterson 1999</td><td>DB RCT (돔페리돈 대조)</td><td>45 DM (다기관)</td><td>10 mg qid</td><td>4주</td><td>증상 39% 개선; 돔페리돈과 유사 효능, 이상반응↑</td></tr>
+        <tr><td>Parkman 2014</td><td>Open PG RCT</td><td>89 T1/T2DM</td><td>비강 10·20 mg, 경구 10 mg qid</td><td>6주</td><td>비강 10·20 mg이 경구 10 mg보다 TSS↓; 경구에서 오심 부작용↑</td></tr>
+        <tr><td>Parkman 2015</td><td>DB PC PG RCT</td><td>285 T1/T2DM</td><td>비강 10·14 mg qid</td><td>4주</td><td>여성에서 유의 증상 감소, 남성 효과 없음; 부작용: 미각 이상·두통·피로</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header open" onclick="toggleCard(this)">
+      <span>💊 돔페리돈 임상시험 요약 (Table 4 발췌)</span><span class="toggle">▾</span>
+    </div>
+    <div class="card-body">
+      <table class="tc-table">
+        <tr><th>연구</th><th>설계</th><th>대상</th><th>용량</th><th>기간</th><th>주요 결과</th></tr>
+        <tr><td>Soykan 1997</td><td>Open</td><td>12 IG, 3 DM, 2 PS</td><td>20 mg qid</td><td>48개월</td><td>증상 68.3%, GE 34.5% 개선 (P&lt;0.05)</td></tr>
+        <tr><td>Silvers 1998</td><td>RCT PG PC</td><td>208 DM</td><td>20 mg qid</td><td>4주</td><td>전체 점수 53.8% 감소 (P=0.025)</td></tr>
+        <tr><td>Patterson 1999</td><td>DB RCT (메토클로프라미드 대조)</td><td>93 DM</td><td>20 mg qid</td><td>4주</td><td>기저치 대비 41% 개선; 메토클로프라미드와 유사 효능 (졸음 29% vs 49%)</td></tr>
+        <tr><td>Sarosiek 2021 (NIH 컨소시엄)</td><td>동적 코호트</td><td>181명 돔페리돈 vs 567명 비사용</td><td>표준화 안됨</td><td>최대 96주</td><td>돔페리돈군: GCSI 총점, 오심, 포만감, 상복부 통증, GERD, PAGI-QOL 유의하게 더 개선</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header open" onclick="toggleCard(this)">
+      <span>🎯 G-POEM 개방 라벨 연구 요약 (Table 10 주요 발췌)</span><span class="toggle">▾</span>
+    </div>
+    <div class="card-body">
+      <table class="tc-table">
+        <tr><th>연구</th><th>N</th><th>유형</th><th>GE 변화</th><th>증상 변화</th><th>추적 기간</th><th>이상반응</th></tr>
+        <tr><td>Gonzalez 2017</td><td>29</td><td>DG 7, IG 15, PSG 5</td><td>70% 정상화</td><td>GCSI 3.5→0.9 (3개월)</td><td>3·6개월</td><td>17%: 기복강 감압 필요</td></tr>
+        <tr><td>Vosoughi 2021 (국제 전향)</td><td>80</td><td>IG 41%, PSG 35%, DG 24%</td><td>47.2% 정상화</td><td>12개월 성공 66.6%</td><td>3개월 GE, 12개월 임상</td><td>증상성 기복강 3, 점막 손상 1</td></tr>
+        <tr><td>Zhang 2019 (SRMA, 14개)</td><td>276</td><td>다양</td><td>정상화율 61.3%</td><td>임상 개선 88.2%; GCSI 개선 18개월까지</td><td>최대 18개월</td><td>술중 3.2%, 술후 2.1%</td></tr>
+        <tr><td>Mohan 2020 (SRMA vs 수술)</td><td>G-POEM 332, 수술 375</td><td>비교</td><td>G-POEM 85.1% vs 수술 84% (NS)</td><td>G-POEM 75.8% vs 수술 77.3% (NS)</td><td>다양</td><td>양 군 이상반응 비교 가능</td></tr>
+        <tr><td>Landreneau 2019 (LP vs G-POEM)</td><td>60 (각 30)</td><td>성향 매칭</td><td>양 군 유의 동등 개선</td><td>GCSI 양 군 유의 동등 개선</td><td>1·3개월</td><td>LP: 입원 기간·수술 시간·합병증↑</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header open" onclick="toggleCard(this)">
+      <span>⚡ 위 전기 자극 (GES) 주요 무작위 임상시험 요약 (Table 7 발췌)</span><span class="toggle">▾</span>
+    </div>
+    <div class="card-body">
+      <table class="tc-table">
+        <tr><th>연구</th><th>설계</th><th>N</th><th>주요 결과</th></tr>
+        <tr><td>Ducrotte 2020</td><td>무작위 교차 (19기관)</td><td>172명 (DG 97, IG 121)</td><td>GES ON 시 구토 유의 감소 (DG, IG 모두 위배출과 무관)</td></tr>
+        <tr><td>Abell 2003</td><td>DB XO RCT</td><td>33 (DG 17, IG 16)</td><td>구토 빈도·심각도 유의 감소, 증상·QOL 6·12개월 개선</td></tr>
+        <tr><td>McCallum 2010</td><td>무작위 XO</td><td>55 DG</td><td>6주 GES: 구토·위마비 증상 유의 감소</td></tr>
+        <tr><td>McCallum 2013</td><td>DB 무작위 XO</td><td>32 IG</td><td>초기 6주 ON: 구토 감소; ON vs OFF: NS. 12개월 ON군: 지속 개선</td></tr>
+        <tr><td>Levinthal 2017 (SRMA)</td><td>5개 RCT + 16개 개방 연구</td><td>다수</td><td>무작위 시험: ON/OFF TSS 차이 없음. 개방 연구: 유의 감소 (위약 효과 포함)</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header open" onclick="toggleCard(this)">
+      <span>📊 권고문 전체 목록 및 GRADE (Table 1)</span><span class="toggle">▾</span>
+    </div>
+    <div class="card-body">
+      <table class="tc-table">
+        <tr><th>#</th><th>권고문 요약</th><th>근거 수준</th><th>권고 강도</th></tr>
+        <tr><td>1</td><td>당뇨 GP: 혈당 최적화로 악화 위험 감소</td><td><span class="badge badge-low">Low</span></td><td><span class="badge badge-cond">조건부</span></td></tr>
+        <tr><td>2</td><td>신티그라피 GE 표준 검사 — 고체 3시간 이상</td><td><span class="badge badge-mod">Moderate</span></td><td><span class="badge badge-strong">강</span></td></tr>
+        <tr><td>3</td><td>방사선 불투과 표지자 권고 안 함</td><td><span class="badge badge-vlow">Very Low</span></td><td><span class="badge badge-cond">조건부</span></td></tr>
+        <tr><td>4</td><td>무선 운동 캡슐 — 신티그라피 대안 가능</td><td><span class="badge badge-low">Low</span></td><td><span class="badge badge-cond">조건부</span></td></tr>
+        <tr><td>5</td><td><sup>13</sup>C-spirulina 호기 검사 신뢰 가능</td><td><span class="badge badge-low">Low</span></td><td><span class="badge badge-cond">조건부</span></td></tr>
+        <tr><td>6</td><td>소입자 식이로 증상 완화·GE 향상</td><td><span class="badge badge-low">Low</span></td><td><span class="badge badge-cond">조건부</span></td></tr>
+        <tr><td>7</td><td>약물치료 고려 (이득-위험 평가 후)</td><td><span class="badge badge-low">Low</span></td><td><span class="badge badge-cond">조건부</span></td></tr>
+        <tr><td>8</td><td>메토클로프라미드 — 불응성 증상에 치료 안 함보다 권고</td><td><span class="badge badge-low">Low</span></td><td><span class="badge badge-cond">조건부</span></td></tr>
+        <tr><td>9</td><td>돔페리돈 — 승인 국가에서 증상 관리</td><td><span class="badge badge-low">Low</span></td><td><span class="badge badge-cond">조건부</span></td></tr>
+        <tr><td>10</td><td>5-HT4 효현제 — GE 개선 목적</td><td><span class="badge badge-low">Low</span></td><td><span class="badge badge-cond">조건부</span></td></tr>
+        <tr><td>11</td><td>제토제 — 증상 조절 (GE 개선 없음)</td><td><span class="badge badge-low">Low</span></td><td><span class="badge badge-cond">조건부</span></td></tr>
+        <tr><td>12</td><td>중추 신경조절제 — 권고 안 함</td><td><span class="badge badge-mod">Moderate</span></td><td><span class="badge badge-strong">강</span></td></tr>
+        <tr><td>13</td><td>그렐린 효현제 — 지지 안 함</td><td><span class="badge badge-mod">Moderate</span></td><td><span class="badge badge-strong">강</span></td></tr>
+        <tr><td>14</td><td>할로페리돌 — 지지 안 함</td><td><span class="badge badge-low">Low</span></td><td><span class="badge badge-cond">조건부</span></td></tr>
+        <tr><td>15</td><td>GES — HUD로 고려 가능</td><td><span class="badge badge-low">Low</span></td><td><span class="badge badge-cond">조건부</span></td></tr>
+        <tr><td>16</td><td>침술 — 당뇨 GP에서만 유익 가능</td><td><span class="badge badge-vlow">Very Low</span></td><td><span class="badge badge-cond">조건부</span></td></tr>
+        <tr><td>17</td><td>Rikkunshito·STW5 한방 — 권고 안 함</td><td><span class="badge badge-low">Low</span></td><td><span class="badge badge-cond">조건부</span></td></tr>
+        <tr><td>18</td><td>EndoFLIP — 유문 기능 평가·G-POEM 예측 역할 가능</td><td><span class="badge badge-vlow">Very Low</span></td><td><span class="badge badge-cond">조건부</span></td></tr>
+        <tr><td>19</td><td>유문 보툴리눔 독소 — RCT 근거로 권고 안 함</td><td><span class="badge badge-mod">Moderate</span></td><td><span class="badge badge-strong">강</span></td></tr>
+        <tr><td>20</td><td>유문근절개술 (G-POEM) — 약물 불응성에서 권고</td><td><span class="badge badge-low">Low</span></td><td><span class="badge badge-cond">조건부</span></td></tr>
+      </table>
+    </div>
+  </div>
+</div>
+
+</div><!-- /main -->
+
+<script>
+function showTab(id){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  event.target.classList.add('active');
+}
+function toggleCard(el){
+  el.classList.toggle('open');
+  el.nextElementSibling.classList.toggle('collapsed');
+}
+function toggleAcc(el){
+  const b=el.nextElementSibling;
+  b.style.display=b.style.display==='block'?'none':'block';
+  el.querySelector('span:last-child').textContent=b.style.display==='block'?'▴':'▾';
+}
+
+const abbrs=[
+  ['GP','Gastroparesis (위마비) — 기계적 폐쇄 없이 고체 음식의 위배출이 객관적으로 지연된 운동장애. 만성 오심·구토·포만감·팽만감·상복부 불쾌감이 특징.'],
+  ['DG','Diabetic Gastroparesis (당뇨 위마비) — 당뇨병에 합병된 위마비. 혈당 조절 악화 → 위배출 더욱 지연되는 악순환.'],
+  ['IG','Idiopathic Gastroparesis (특발성 위마비) — 원인 불명 위마비. 가장 흔한 유형 (약 50%).'],
+  ['PSG','Post-Surgical Gastroparesis (수술 후 위마비) — 수술 (특히 미주신경 절제, 위 수술, 위저부 주름형성술) 후 발생.'],
+  ['SGE','Scintigraphic Gastric Emptying (신티그라피 위배출 검사) — 방사성 동위원소를 이용한 위마비 표준 진단 검사. 4시간 고체 측정이 표준.'],
+  ['GE','Gastric Emptying (위배출) — 음식이 위에서 십이지장으로 이동하는 과정. 위마비에서 지연됨.'],
+  ['GEBT','Gastric Emptying Breath Test (위배출 호기 검사) — 13C-spirulina를 이용한 비침습적 위배출 검사. 방사선 없음.'],
+  ['WMC','Wireless Motility Capsule (무선 운동 캡슐) — 전 소화관 통과 시간과 압력을 측정하는 캡슐. pH 변화로 위 통과 시점 확인.'],
+  ['GES','Gastric Electrical Stimulation (위 전기 자극) — 위 근육에 전기 자극을 가해 증상을 조절하는 기기 치료. FDA HUD 승인.'],
+  ['HUD','Humanitarian Use Device (인도적 사용기기) — 희귀 질환에서 FDA가 인도주의적 근거로 승인한 기기. 엄격한 효능 데이터 없이도 사용 가능.'],
+  ['G-POEM','Gastric Per-Oral Endoscopic Myotomy (경구 내시경 위 유문근절개술) — 내시경으로 유문 근육을 절개하는 시술. 불응성 위마비 1차 내시경 치료.'],
+  ['EndoFLIP','Endoluminal Functional Lumen Imaging Probe — 유문부 직경·단면적·팽창성을 측정하는 내시경 기기. G-POEM 반응 예측에 유용.'],
+  ['GCSI','Gastroparesis Cardinal Symptom Index — 위마비 핵심 증상 지수. 오심/구토, 포만감/조기 포만감, 팽만감/팽창 3개 하위척도.'],
+  ['GCSI-DD','Gastroparesis Cardinal Symptom Index – Daily Diary — GCSI의 일일 일기 버전.'],
+  ['FD','Functional Dyspepsia (기능성 소화불량) — 위마비와 스펙트럼 관계. 구조적 이상 없이 상복부 증상. 위마비보다 예후 양호.'],
+  ['EGG','Electrogastrography (위장 전기 기록술) — 피부 전극으로 위 전기 활동을 측정. 현재 임상적 역할 미확립, 연구 목적.'],
+  ['5-HT4','Serotonin 4 Receptor (세로토닌 4 수용체) 효현제 — 장관 운동 촉진. 프루칼로프리드·벨루세트라그·펠시세트라그 등.'],
+  ['NK-1','Neurokinin-1 Receptor Antagonist (뉴로키닌-1 수용체 길항제) — 구역 조절. 트라디피탄트·아프레피탄트 포함.'],
+  ['IVIg','Intravenous Immunoglobulin (정맥 면역글로불린) — 자가면역 이상이 있는 약물 불응성 위마비에서 소규모 연구에서 효과 시사.'],
+  ['ACG','American College of Gastroenterology (미국 소화기학회) — 본 가이드라인 발행 학회.'],
+  ['GRADE','Grading of Recommendations Assessment, Development and Evaluation — 근거 수준 및 권고 강도 등급화 방법론.'],
+  ['ROM','Radiopaque Markers (방사선 불투과 표지자) — 위배출 측정 방법이나 위마비 진단에 권고되지 않음 (민감도 34%).'],
+  ['PAGI-QOL','Patient Assessment of Upper Gastrointestinal Disorders–Quality of Life — 상부 위장관 질환 삶의 질 평가 도구.'],
+  ['EGD','Esophagogastroduodenoscopy (식도위십이지장내시경) — 위마비 진단 전 기계적 폐쇄 배제 목적으로 시행. 위 음식 잔류는 위마비 진단 의미 없음 (PPV 55%).'],
+  ['ICC','Interstitial Cells of Cajal (카잘 간질 세포) — 위장관 박동조율세포. 위마비에서 고갈 → 위 전기 기능 장애.'],
+  ['DI','Distensibility Index (팽창성 지수) — EndoFLIP으로 측정하는 유문 팽창성. &lt;10 mm²/mmHg이면 G-POEM 반응 예측.'],
+];
+
+function buildAbbr(){
+  const sorted=abbrs.slice().sort((a,b)=>a[0].localeCompare(b[0]));
+  document.getElementById('abbr-grid-drop').innerHTML=sorted.map(a=>
+    `<div style="background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:6px 10px;margin-bottom:4px;" data-term="${a[0].toLowerCase()}" data-def="${a[1].toLowerCase()}">
+       <span style="font-weight:700;color:var(--orange);font-size:12px;font-family:'Courier New',monospace">${a[0]}</span>
+       <div style="font-size:11px;color:var(--text2);line-height:1.45;margin-top:2px">${a[1]}</div>
+     </div>`).join('');
+}
+function filterAbbr(val){
+  const v=val.toLowerCase().trim();
+  const drop=document.getElementById('abbr-dropdown');
+  const items=document.querySelectorAll('#abbr-grid-drop [data-term]');
+  if(!v){drop.style.display='none';return;}
+  const inp=document.getElementById('abbr-input');
+  const rect=inp.getBoundingClientRect();
+  const w=440;
+  let left=rect.right-w;if(left<8)left=8;
+  drop.style.top=(rect.bottom+4)+'px';drop.style.left=left+'px';
+  drop.style.display='block';
+  items.forEach(el=>{
+    const show=el.dataset.term.startsWith(v)||el.dataset.def.includes(v);
+    el.style.display=show?'':'none';
+  });
+}
+document.addEventListener('click',e=>{
+  const inp=document.getElementById('abbr-input');
+  const drop=document.getElementById('abbr-dropdown');
+  if(inp&&!inp.contains(e.target)&&drop&&!drop.contains(e.target))drop.style.display='none';
+});
+buildAbbr();
+</script>
+</body>
+</html>
