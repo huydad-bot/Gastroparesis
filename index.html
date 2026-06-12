@@ -37,8 +37,23 @@
   .card-body.collapsed{display:none;}
   .stat-row{display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;}
   .stat-box{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:10px 14px;flex:1;min-width:90px;text-align:center;}
+  .stat-box.clickable{cursor:pointer;transition:box-shadow .15s,border-color .15s;}
+  .stat-box.clickable:hover{border-color:var(--orange);box-shadow:0 2px 8px rgba(188,76,0,.15);}
   .stat-val{font-size:18px;font-weight:700;color:var(--orange);}
   .stat-lbl{font-size:10px;color:var(--text2);margin-top:2px;}
+  .stat-hint{font-size:9px;color:var(--orange);margin-top:4px;opacity:.7;}
+  /* Modal */
+  .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;align-items:center;justify-content:center;}
+  .modal-overlay.open{display:flex;}
+  .modal-box{background:var(--surface);border-radius:12px;padding:20px;max-width:640px;width:92%;max-height:84vh;overflow-y:auto;box-shadow:0 16px 48px rgba(0,0,0,.22);position:relative;}
+  .modal-close{position:absolute;top:12px;right:14px;background:none;border:none;font-size:18px;cursor:pointer;color:var(--text2);line-height:1;}
+  .modal-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:12px;padding-right:20px;line-height:1.4;}
+  .modal-section{margin-bottom:12px;}
+  .modal-section-title{font-size:11px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;border-bottom:1px solid var(--border);padding-bottom:4px;}
+  .modal-table{width:100%;border-collapse:collapse;font-size:11.5px;}
+  .modal-table th{background:var(--surface2);color:var(--text2);padding:4px 8px;font-size:10.5px;font-weight:600;text-align:left;border-bottom:1px solid var(--border);}
+  .modal-table td{padding:5px 8px;border-bottom:1px solid var(--border);vertical-align:top;}
+  .modal-table tr:last-child td{border-bottom:none;}
   .rec-list{list-style:none;}
   .rec-item{padding:7px 0;border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:flex-start;}
   .rec-item:last-child{border-bottom:none;}
@@ -129,8 +144,8 @@
   <div class="stat-row">
     <div class="stat-box"><div class="stat-val">20개</div><div class="stat-lbl">총 권고문 수</div></div>
     <div class="stat-box"><div class="stat-val">4시간</div><div class="stat-lbl">표준 위배출 신티그라피 권장 시간</div></div>
-    <div class="stat-box"><div class="stat-val">&lt;1%</div><div class="stat-lbl">메토클로프라미드 지발성 운동장애 위험</div></div>
-    <div class="stat-box"><div class="stat-val">G-POEM</div><div class="stat-lbl">불응성 위마비 1차 선택 내시경 시술</div></div>
+    <div class="stat-box clickable" onclick="openModal('tdModal')"><div class="stat-val">&lt;1%</div><div class="stat-lbl">메토클로프라미드 지발성 운동장애 위험</div><div class="stat-hint">▸ 클릭하여 상세 보기</div></div>
+    <div class="stat-box clickable" onclick="openModal('gpoemModal')"><div class="stat-val">G-POEM</div><div class="stat-lbl">불응성 위마비 1차 선택 내시경 시술</div><div class="stat-hint">▸ 클릭하여 상세 보기</div></div>
   </div>
 
   <div class="card">
@@ -908,6 +923,188 @@ document.addEventListener('click',e=>{
   if(inp&&!inp.contains(e.target)&&drop&&!drop.contains(e.target))drop.style.display='none';
 });
 buildAbbr();
+</script>
+
+<!-- ═══ MODAL: 지발성 운동장애 (TD) ═══ -->
+<div id="tdModal" class="modal-overlay" onclick="closeModalOutside(event,'tdModal')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('tdModal')">✕</button>
+    <div class="modal-title">⚠️ 메토클로프라미드와 지발성 운동장애 (Tardive Dyskinesia, TD)</div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">실제 위험도 — &lt;1%/1,000 인년</div>
+      <div class="alert alert-success" style="margin:0 0 8px">
+        <span>✅</span><span>Al-Saffar 등 (Neurogastroenterol Motil 2019): 실제 TD 위험은 이전 FDA 권고의 1–10% 추정치보다 훨씬 낮은 <strong>0.1%/1,000 인년</strong>으로 재평가됨.</span>
+      </div>
+      <table class="modal-table">
+        <tr><th>출처</th><th>TD 위험도</th><th>비고</th></tr>
+        <tr><td>VA 의료센터 코호트 연구 (Ganzini 1993)</td><td>RR 1.67 (0.93–2.97) — 비유의</td><td>사용자 vs 비사용자 비교</td></tr>
+        <tr><td>Rao &amp; Camilleri (Aliment Pharmacol Ther 2010)</td><td>&lt;1% 추정</td><td>종합 문헌 검토</td></tr>
+        <tr><td>Al-Saffar 등 (2019, ACG 가이드라인 인용)</td><td><strong>0.1%/1,000 인년</strong></td><td>가장 포괄적인 평가</td></tr>
+        <tr><td>영국 부작용 등록부 1967–82 (1,590만 처방)</td><td>추체외로 반응 479건 (4건 TD)</td><td>0.003% 보고율</td></tr>
+        <tr><td>FAERS 2004–2010 (4,050만 처방)</td><td>TD 944건 보고</td><td>0.002% 보고율 (과소 신고 가능)</td></tr>
+      </table>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">FDA Black Box 경고 (2009) 및 처방 제한</div>
+      <div class="alert alert-danger" style="margin:0 0 8px">
+        <span>🚫</span><span>장기 또는 고용량 사용에 대한 FDA Black Box 경고 (2009). REMS 프로그램 시행.</span>
+      </div>
+      <table class="modal-table">
+        <tr><th>제한 항목</th><th>내용</th></tr>
+        <tr><td>최대 투여 기간</td><td><strong>12주 이하</strong> (드물게 이득이 위험을 상회하는 경우 제외)</td></tr>
+        <tr><td>최대 용량</td><td>경구 10 mg, 하루 3–4회 초과 금지</td></tr>
+        <tr><td>연령 제한</td><td>65세 미만 권고</td></tr>
+        <tr><td>고위험군</td><td>노인 여성, 당뇨 환자, 간·신부전, 항정신병약 병용</td></tr>
+      </table>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">TD 임상 양상 및 감별</div>
+      <table class="modal-table">
+        <tr><th>구분</th><th>내용</th></tr>
+        <tr><td>주요 증상</td><td>얼굴·구강·혀·사지의 불수의 반복 운동 (무도무정위 운동). 호흡 이상 (호흡성 TD)도 드물게 발생.</td></tr>
+        <tr><td>가역성</td><td>약물 중단 후 대부분 호전, 일부 <strong>비가역적</strong> 지속 가능</td></tr>
+        <tr><td>발생 시기</td><td>주로 수개월~수년 장기 사용 후; 단기 사용에서도 드물게 발생</td></tr>
+        <tr><td>감별 진단</td><td>급성 추체외로 반응 (투여 수일 내 발생, 대부분 가역적), 파킨슨증, 정좌불능증</td></tr>
+        <tr><td>초기 경보 증상</td><td>혀 내밀기, 입술 핥기, 씹는 동작, 얼굴 찡그림, 팔다리 무도 운동</td></tr>
+      </table>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">🔍 평가 도구: AIMS (Abnormal Involuntary Movement Scale)</div>
+      <div class="alert alert-info" style="margin:0 0 8px">
+        <span>📋</span><span>AIMS는 TD 선별·중증도 추적의 표준 임상 평가 도구 (1970년대 개발). 6–12개월마다 시행 권고.</span>
+      </div>
+      <table class="modal-table">
+        <tr><th>항목</th><th>평가 부위 (0–4점)</th></tr>
+        <tr><td><strong>구강·안면 운동</strong></td><td>1. 안면 근육 전반 &nbsp;2. 입술·주변 &nbsp;3. 턱 &nbsp;4. 혀</td></tr>
+        <tr><td><strong>사지 운동</strong></td><td>5. 상지 (팔·손목·손·손가락) &nbsp;6. 하지 (다리·무릎·발목·발)</td></tr>
+        <tr><td><strong>체간 운동</strong></td><td>7. 목·어깨·엉덩이</td></tr>
+        <tr><td><strong>전반 판단</strong></td><td>8. 이상운동 전반 중증도 &nbsp;9. 장애 수준 &nbsp;10. 환자 인식</td></tr>
+        <tr><td><strong>치아 상태</strong></td><td>11. 치아·틀니 여부 (구강 운동 해석에 영향)</td></tr>
+      </table>
+      <div class="alert alert-warn" style="margin:8px 0 0">
+        <span>📌</span><span><strong>판독 기준:</strong> 2개 이상의 항목에서 2점 이상, 또는 1개 항목에서 3점 이상 → TD 진단 시사. AIMS 총점은 환자에게 공개하지 않음.</span>
+      </div>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">임상 관리 알고리즘</div>
+      <table class="modal-table">
+        <tr><th>단계</th><th>조치</th></tr>
+        <tr><td>처방 전</td><td>TD 증상 기저치 확인 (AIMS 또는 임상 관찰). 위험 인자 검토.</td></tr>
+        <tr><td>투여 중</td><td>매 진료 시 이상 운동 관찰. 6–12개월마다 구조적 TD 평가 (AIMS). 12주 초과 시 이득-위험 재평가 문서화.</td></tr>
+        <tr><td>TD 의심 시</td><td>① 메토클로프라미드 즉시 중단 ② 증상 경과 관찰 (수주–수개월) ③ 지속 시 신경과·정신건강의학과 협진</td></tr>
+        <tr><td>비가역 TD 치료</td><td>VMAT2 억제제 (발베나진 [Ingrezza], 도이테트라베나진 [Austedo]) — FDA 승인 TD 치료제</td></tr>
+        <tr><td>대안 약물</td><td>돔페리돈 (BBB 통과 최소화 → 추체외로 부작용↓), 5-HT4 효현제 (프루칼로프리드)</td></tr>
+      </table>
+    </div>
+
+    <div class="alert alert-teal" style="margin-top:4px">
+      <span>💡</span><span><strong>임상 요점:</strong> 실제 TD 위험은 이전에 알려진 것보다 훨씬 낮다. 그러나 비가역성 가능성 때문에 12주 제한 준수, 고위험군 주의, 정기 AIMS 모니터링이 중요하다. 대안 약물이 가능하면 우선 고려한다.<br><br>
+      <strong>⚠️ 12주 제한의 의미:</strong> 일생 누적이 아닌 <strong>한 치료 과정(course)의 연속 사용 기간</strong> 기준이다. TD 위험은 누적 복용량과 기간 모두에 의해 증가하므로, 재투여 시에도 최소 용량·최단 기간을 원칙으로 하고 AIMS 모니터링을 유지해야 한다. 위마비가 만성 질환인 현실을 고려하여 이득이 위험을 상회한다고 판단되면 중단 후 재투여가 가능하나, FDA는 이를 "드문 경우"로 제한한다.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: G-POEM ═══ -->
+<div id="gpoemModal" class="modal-overlay" onclick="closeModalOutside(event,'gpoemModal')">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal('gpoemModal')">✕</button>
+    <div class="modal-title">🎯 G-POEM (Gastric Per-Oral Endoscopic Myotomy) — 경구 내시경 위 유문근절개술</div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">개요 및 역사</div>
+      <table class="modal-table">
+        <tr><th>항목</th><th>내용</th></tr>
+        <tr><td>최초 시술</td><td>Khashab 등, 2013년 (인체 최초 적용). 식도 POEM의 직접 확장. 돼지 모델은 Kawai 등이 먼저 기술.</td></tr>
+        <tr><td>적응증</td><td>약물 불응성 위마비 (특발성·당뇨성·수술 후). EndoFLIP으로 유문 팽창성 감소 확인 시 최적.</td></tr>
+        <tr><td>원리</td><td>내시경 점막하 터널링 → 유문 근육 절개 → 유문 기능 장애 해소 → 위배출 개선</td></tr>
+      </table>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">🔧 시술 단계 (Step-by-Step)</div>
+      <table class="modal-table">
+        <tr><th>단계</th><th>내용</th></tr>
+        <tr><td><strong>① 점막하 주입</strong></td><td>유문으로부터 3–5 cm 근위 전정부 대만측에 생리식염수+인디고카민+에피네프린 혼합액 주입 → 점막하 쿠션 형성</td></tr>
+        <tr><td><strong>② 점막 절개</strong></td><td>유문 3–5 cm 근위부 대만 측 점막 절개 (10–15 mm)</td></tr>
+        <tr><td><strong>③ 점막하 터널 형성</strong></td><td>유문을 넘어 십이지장구부 약 1–2 cm까지 점막하 터널 박리</td></tr>
+        <tr><td><strong>④ 유문근 절개</strong></td><td>유문 근위부 2–3 cm ~ 십이지장구부 1 cm까지 전층 근절개 수행</td></tr>
+        <tr><td><strong>⑤ 지혈 확인</strong></td><td>충분한 지혈 후 터널 내 확인</td></tr>
+        <tr><td><strong>⑥ 점막 봉합</strong></td><td>금속 클립 또는 OverStitch 내시경 봉합 장치로 점막 절개 부위 완전 폐쇄</td></tr>
+        <tr><td><strong>⑦ 전신마취</strong></td><td>전신마취 하 시행 (기복강 위험으로 CO₂ 주입 필수)</td></tr>
+      </table>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">📊 임상 성적 요약</div>
+      <table class="modal-table">
+        <tr><th>지표</th><th>결과</th><th>출처</th></tr>
+        <tr><td>기술적 성공률</td><td><strong>&gt;95%</strong></td><td>최신 메타분석 (2025)</td></tr>
+        <tr><td>단기 증상 개선 (3개월)</td><td>80–90% (GCSI 개선)</td><td>다수 개방 연구</td></tr>
+        <tr><td>1년 임상 성공률</td><td>52–66%</td><td>국제 전향 연구 (Vosoughi 2021)</td></tr>
+        <tr><td>장기 (3–4년) 임상 성공률</td><td><strong>50–77.5%</strong></td><td>장기 추적 메타분석 2023</td></tr>
+        <tr><td>위배출 정상화율 (3개월)</td><td>61.3% (95% CI 51.5–70.8%)</td><td>Zhang SRMA 2019</td></tr>
+        <tr><td>GCSI 4시간 잔류 개선</td><td>41.9% → 16.5%</td><td>Li SRMA 2021</td></tr>
+        <tr><td>vs 수술 유문성형술</td><td>임상 성공 동등 (75.8% vs 77.3%)</td><td>Mohan SRMA 2020</td></tr>
+        <tr><td>전체 이상반응률</td><td>6.8–12%</td><td>복수 SRMA</td></tr>
+      </table>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">⚠️ 이상반응 및 합병증</div>
+      <table class="modal-table">
+        <tr><th>합병증</th><th>빈도</th><th>처치</th></tr>
+        <tr><td>증상성 기복강 (capnoperitoneum)</td><td>가장 흔함 (~3–5%)</td><td>대부분 보존적 감압 또는 복강경 처치</td></tr>
+        <tr><td>점막 손상/천공</td><td>~2–3%</td><td>클립 봉합 또는 수술적 처치</td></tr>
+        <tr><td>출혈</td><td>~2–3%</td><td>대부분 내시경 지혈</td></tr>
+        <tr><td>위-십이지장 역류 증가 (GERD 악화)</td><td>일부 환자</td><td>PPI 유지, 추적 필요</td></tr>
+        <tr><td>유문 협착 재발</td><td>드묾 (&lt;5%)</td><td>반복 내시경 절개 (redo G-POEM) 가능</td></tr>
+        <tr><td>사망</td><td>매우 드묾</td><td>비관련 원인 포함</td></tr>
+      </table>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">🔬 환자 선택 — EndoFLIP 활용</div>
+      <div class="alert alert-info" style="margin:0 0 8px">
+        <span>💡</span><span>EndoFLIP으로 유문 팽창성지수 (DI) &lt;10 mm²/mmHg 확인 시 G-POEM 반응 예측. 50 mL 팽창 기준 DI &gt;9.2 mm²/mmHg → 특이도 100%, 민감도 72.2%.</span>
+      </div>
+      <table class="modal-table">
+        <tr><th>양호한 예측 인자</th><th>불량한 예측 인자</th></tr>
+        <tr><td>유문 팽창성 감소 (EndoFLIP 확인)</td><td>결합조직병 동반</td></tr>
+        <tr><td>수술 후 위마비</td><td>오피오이드 장기 사용 (단, 최근 연구에서 적응증 확대)</td></tr>
+        <tr><td>높은 기저 GCSI 포만감 점수</td><td>위배출 지연이 경미한 경우</td></tr>
+        <tr><td>이전 GES와 병용 가능</td><td>미주신경 절제술 후 (증거 제한적)</td></tr>
+      </table>
+    </div>
+
+    <div class="modal-section">
+      <div class="modal-section-title">비교 — 다른 유문 시술과의 차이</div>
+      <table class="modal-table">
+        <tr><th>시술</th><th>G-POEM</th><th>복강경 유문성형술</th><th>보툴리눔 독소 주사</th></tr>
+        <tr><td>침습도</td><td>최소 침습 (내시경)</td><td>수술</td><td>내시경</td></tr>
+        <tr><td>효능</td><td>동등 (~75–77%)</td><td>동등 (~77%)</td><td>일반적 권고 안 함 (RCT 효과 없음)</td></tr>
+        <tr><td>합병증</td><td>낮음 (6–12%)</td><td>높음 (6.8% 이환율, 누출 포함)</td><td>낮으나 효과 없음</td></tr>
+        <tr><td>입원 기간</td><td>짧음</td><td>김</td><td>당일</td></tr>
+        <tr><td>비용</td><td>중등</td><td>높음</td><td>낮음</td></tr>
+        <tr><td>반복 가능</td><td>가능 (redo G-POEM)</td><td>제한적</td><td>효과 없으므로 의미 없음</td></tr>
+      </table>
+    </div>
+
+    <div class="alert alert-orange" style="margin-top:4px">
+      <span>⚡</span><span><strong>임상 요점:</strong> G-POEM은 약물 불응성 위마비에서 기술적 성공률 &gt;95%, 단기 증상 개선 80–90%, 3–4년 지속 성공 50–77%의 우수한 성적을 보인다. 수술 유문성형술과 효능은 동등하나 합병증이 적어 현재 1차 선택 시술로 자리잡고 있다.</span>
+    </div>
+  </div>
+</div>
+
+<script>
+function openModal(id){document.getElementById(id).classList.add('open');}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+function closeModalOutside(e,id){if(e.target===document.getElementById(id))closeModal(id);}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.modal-overlay.open').forEach(m=>m.classList.remove('open'));});
 </script>
 </body>
 </html>
