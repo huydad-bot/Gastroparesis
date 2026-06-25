@@ -9,17 +9,20 @@
     --bg:#f6f8fa;--surface:#fff;--surface2:#f0f2f5;--border:#d0d7de;
     --accent:#0969da;--accent2:#0550ae;--green:#1a7f37;--yellow:#9a6700;
     --red:#cf222e;--orange:#bc4c00;--text:#1f2328;--text2:#57606a;
-    --teal:#0a7c8a;--purple:#5a3ea0;
+    --teal:#0a7c8a;--purple:#5a3ea0;--fscale:1;
   }
   *{box-sizing:border-box;margin:0;padding:0;}
-  body{font-family:'Pretendard','Noto Sans KR',-apple-system,sans-serif;background:var(--bg);color:var(--text);font-size:13px;line-height:1.5;}
+  body{font-family:'Pretendard','Noto Sans KR',-apple-system,sans-serif;background:var(--bg);color:var(--text);font-size: calc(13px * var(--fscale, 1));line-height:1.5;}
   header{background:var(--surface);border-bottom:1px solid var(--border);padding:12px 16px 8px;display:flex;flex-direction:column;align-items:center;gap:4px;position:sticky;top:0;z-index:100;}
   .header-inner{width:100%;max-width:960px;display:flex;flex-direction:column;align-items:center;gap:4px;}
-  .logo-badge{background:var(--orange);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:.5px;}
+  .logo-badge{background:var(--orange);color:#fff;font-size: calc(10px * var(--fscale, 1));font-weight:700;padding:3px 8px;border-radius:4px;letter-spacing:.5px;}
   .tab-bar{display:flex;justify-content:center;background:var(--surface);border-bottom:1px solid var(--border);overflow-x:auto;scrollbar-width:none;}
   .tab-bar::-webkit-scrollbar{display:none;}
+  .font-zoom-btn{display:flex;align-items:center;gap:3px;flex-shrink:0;margin:4px 4px 4px 6px;padding:5px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--accent2);font-size:calc(11px * var(--fscale, 1));font-weight:700;cursor:pointer;user-select:none;white-space:nowrap;transition:background .15s;}
+  .font-zoom-btn:hover{background:var(--border);}
+  .font-zoom-btn .fz-icon{font-size:calc(12px * var(--fscale, 1));}
   .tab-bar-inner{width:100%;max-width:960px;display:flex;align-items:center;gap:2px;padding:0 4px;}
-  .tab{padding:7px 11px;font-size:11.5px;color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:color .15s,border-color .15s;user-select:none;flex-shrink:0;}
+  .tab{padding:7px 11px;font-size: calc(11.5px * var(--fscale, 1));color:var(--text2);cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;transition:color .15s,border-color .15s;user-select:none;flex-shrink:0;}
   .tab:hover{color:var(--text);}
   .tab.active{color:var(--orange);border-bottom-color:var(--orange);}
   .tab-abbr-wrap{display:flex;align-items:center;padding:4px 4px;margin-left:4px;flex-shrink:0;position:relative;}
@@ -30,8 +33,8 @@
   .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
   @media(max-width:680px){.grid2,.grid3{grid-template-columns:1fr;}}
   .card{background:var(--surface);border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:10px;}
-  .card-header{background:var(--surface2);padding:8px 12px;font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;}
-  .card-header .toggle{font-size:13px;transition:transform .2s;}
+  .card-header{background:var(--surface2);padding:8px 12px;font-size: calc(12px * var(--fscale, 1));font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;border-bottom:1px solid var(--border);cursor:pointer;display:flex;align-items:center;justify-content:space-between;user-select:none;}
+  .card-header .toggle{font-size: calc(13px * var(--fscale, 1));transition:transform .2s;}
   .card-header.open .toggle{transform:rotate(180deg);}
   .card-body{padding:10px 12px;}
   .card-body.collapsed{display:none;}
@@ -39,27 +42,27 @@
   .stat-box{background:var(--surface);border:1px solid var(--border);border-radius:6px;padding:10px 14px;flex:1;min-width:90px;text-align:center;}
   .stat-box.clickable{cursor:pointer;transition:box-shadow .15s,border-color .15s;}
   .stat-box.clickable:hover{border-color:var(--orange);box-shadow:0 2px 8px rgba(188,76,0,.15);}
-  .stat-val{font-size:18px;font-weight:700;color:var(--orange);}
-  .stat-lbl{font-size:10px;color:var(--text2);margin-top:2px;}
-  .stat-hint{font-size:9px;color:var(--orange);margin-top:4px;opacity:.7;}
+  .stat-val{font-size: calc(18px * var(--fscale, 1));font-weight:700;color:var(--orange);}
+  .stat-lbl{font-size: calc(10px * var(--fscale, 1));color:var(--text2);margin-top:2px;}
+  .stat-hint{font-size: calc(9px * var(--fscale, 1));color:var(--orange);margin-top:4px;opacity:.7;}
   /* Modal */
   .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:500;align-items:center;justify-content:center;}
   .modal-overlay.open{display:flex;}
   .modal-box{background:var(--surface);border-radius:12px;padding:20px;max-width:640px;width:92%;max-height:84vh;overflow-y:auto;box-shadow:0 16px 48px rgba(0,0,0,.22);position:relative;}
-  .modal-close{position:absolute;top:12px;right:14px;background:none;border:none;font-size:18px;cursor:pointer;color:var(--text2);line-height:1;}
-  .modal-title{font-size:15px;font-weight:700;color:var(--text);margin-bottom:12px;padding-right:20px;line-height:1.4;}
+  .modal-close{position:absolute;top:12px;right:14px;background:none;border:none;font-size: calc(18px * var(--fscale, 1));cursor:pointer;color:var(--text2);line-height:1;}
+  .modal-title{font-size: calc(15px * var(--fscale, 1));font-weight:700;color:var(--text);margin-bottom:12px;padding-right:20px;line-height:1.4;}
   .modal-section{margin-bottom:12px;}
-  .modal-section-title{font-size:11px;font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;border-bottom:1px solid var(--border);padding-bottom:4px;}
-  .modal-table{width:100%;border-collapse:collapse;font-size:11.5px;}
-  .modal-table th{background:var(--surface2);color:var(--text2);padding:4px 8px;font-size:10.5px;font-weight:600;text-align:left;border-bottom:1px solid var(--border);}
+  .modal-section-title{font-size: calc(11px * var(--fscale, 1));font-weight:700;color:var(--orange);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;border-bottom:1px solid var(--border);padding-bottom:4px;}
+  .modal-table{width:100%;border-collapse:collapse;font-size: calc(11.5px * var(--fscale, 1));}
+  .modal-table th{background:var(--surface2);color:var(--text2);padding:4px 8px;font-size: calc(10.5px * var(--fscale, 1));font-weight:600;text-align:left;border-bottom:1px solid var(--border);}
   .modal-table td{padding:5px 8px;border-bottom:1px solid var(--border);vertical-align:top;}
   .modal-table tr:last-child td{border-bottom:none;}
   .rec-list{list-style:none;}
   .rec-item{padding:7px 0;border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:flex-start;}
   .rec-item:last-child{border-bottom:none;}
-  .rec-text{font-size:12px;color:var(--text);line-height:1.65;}
+  .rec-text{font-size: calc(12px * var(--fscale, 1));color:var(--text);line-height:1.65;}
   .rec-text strong{color:#1f2328;}
-  .badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700;white-space:nowrap;flex-shrink:0;margin-top:1px;}
+  .badge{display:inline-flex;align-items:center;padding:2px 8px;border-radius:10px;font-size: calc(10px * var(--fscale, 1));font-weight:700;white-space:nowrap;flex-shrink:0;margin-top:1px;}
   .badge-strong{background:#dafbe1;color:#116329;border:1px solid #1a7f37;}
   .badge-cond{background:#fff8c5;color:#7a4b00;border:1px solid #d4a017;}
   .badge-high{background:#dafbe1;color:#116329;border:1px solid #1a7f37;}
@@ -67,7 +70,7 @@
   .badge-low{background:#fff8c5;color:#7a4b00;border:1px solid #d4a017;}
   .badge-vlow{background:#ffebe9;color:#82071e;border:1px solid var(--red);}
   .badge-no{background:#f3e5f5;color:#5a3ea0;border:1px solid #5a3ea0;}
-  .alert{padding:8px 12px;border-radius:6px;font-size:12px;margin:8px 0;display:flex;gap:8px;align-items:flex-start;}
+  .alert{padding:8px 12px;border-radius:6px;font-size: calc(12px * var(--fscale, 1));margin:8px 0;display:flex;gap:8px;align-items:flex-start;}
   .alert-info{background:#ddf4ff;border-left:3px solid var(--accent2);color:#0550ae;}
   .alert-warn{background:#fff8c5;border-left:3px solid #d4a017;color:#7a4b00;}
   .alert-danger{background:#ffebe9;border-left:3px solid var(--red);color:#82071e;}
@@ -75,22 +78,22 @@
   .alert-teal{background:#e0f5f5;border-left:3px solid var(--teal);color:#075050;}
   .alert-orange{background:#fff3e0;border-left:3px solid var(--orange);color:#7a3500;}
   .alert-purple{background:#f3e5f5;border-left:3px solid var(--purple);color:#5a3ea0;}
-  .tc-table{width:100%;border-collapse:collapse;font-size:11.5px;}
-  .tc-table th{background:var(--surface2);color:var(--text2);padding:5px 8px;font-size:10.5px;text-transform:uppercase;letter-spacing:.3px;font-weight:600;text-align:left;border-bottom:1px solid var(--border);}
+  .tc-table{width:100%;border-collapse:collapse;font-size: calc(11.5px * var(--fscale, 1));}
+  .tc-table th{background:var(--surface2);color:var(--text2);padding:5px 8px;font-size: calc(10.5px * var(--fscale, 1));text-transform:uppercase;letter-spacing:.3px;font-weight:600;text-align:left;border-bottom:1px solid var(--border);}
   .tc-table td{padding:5px 8px;border-bottom:1px solid var(--border);vertical-align:top;}
   .tc-table tr:last-child td{border-bottom:none;}
   .tc-table tr:hover td{background:rgba(0,0,0,.02);}
   .acc{border:1px solid var(--border);border-radius:6px;margin-bottom:6px;overflow:hidden;}
-  .acc-hdr{background:var(--surface2);padding:7px 12px;font-size:12px;font-weight:600;color:var(--text);cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none;}
+  .acc-hdr{background:var(--surface2);padding:7px 12px;font-size: calc(12px * var(--fscale, 1));font-weight:600;color:var(--text);cursor:pointer;display:flex;justify-content:space-between;align-items:center;user-select:none;}
   .acc-hdr:hover{background:#e8eaec;}
-  .acc-body{display:none;padding:10px 12px;font-size:12px;line-height:1.65;}
-  .flow-box{border:1px solid var(--border);border-radius:6px;background:var(--surface);padding:8px 12px;margin-bottom:6px;font-size:12px;line-height:1.6;}
-  .flow-arrow{text-align:center;color:var(--text2);font-size:14px;margin:2px 0;}
-  .step-num{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--orange);color:#fff;font-size:10px;font-weight:700;flex-shrink:0;margin-right:6px;}
+  .acc-body{display:none;padding:10px 12px;font-size: calc(12px * var(--fscale, 1));line-height:1.65;}
+  .flow-box{border:1px solid var(--border);border-radius:6px;background:var(--surface);padding:8px 12px;margin-bottom:6px;font-size: calc(12px * var(--fscale, 1));line-height:1.6;}
+  .flow-arrow{text-align:center;color:var(--text2);font-size: calc(14px * var(--fscale, 1));margin:2px 0;}
+  .step-num{display:inline-flex;align-items:center;justify-content:center;width:20px;height:20px;border-radius:50%;background:var(--orange);color:#fff;font-size: calc(10px * var(--fscale, 1));font-weight:700;flex-shrink:0;margin-right:6px;}
   ul.dot{padding-left:18px;}
-  ul.dot li{margin-bottom:3px;font-size:12px;line-height:1.6;}
+  ul.dot li{margin-bottom:3px;font-size: calc(12px * var(--fscale, 1));line-height:1.6;}
   ol.num{padding-left:18px;}
-  ol.num li{margin-bottom:4px;font-size:12px;line-height:1.6;}
+  ol.num li{margin-bottom:4px;font-size: calc(12px * var(--fscale, 1));line-height:1.6;}
   ::-webkit-scrollbar{width:5px;height:5px;}
   ::-webkit-scrollbar-track{background:var(--bg);}
   ::-webkit-scrollbar-thumb{background:#c8d0d9;border-radius:3px;}
@@ -105,16 +108,17 @@
       <h1 style="font-size:17px;font-weight:700;color:var(--text)">위마비 임상진료지침</h1>
     </div>
     <div style="text-align:center;line-height:1.5">
-      <span style="color:var(--text2);font-size:11px">ACG Clinical Guideline: Gastroparesis — American College of Gastroenterology</span><br>
-      <span style="font-size:10px;color:var(--text2)">Camilleri M, et al. · Am J Gastroenterol 2022;117(8):1197–1220 · doi: 10.14309/ajg.0000000000001874</span>
+      <span style="color:var(--text2);font-size: calc(11px * var(--fscale, 1))">ACG Clinical Guideline: Gastroparesis — American College of Gastroenterology</span><br>
+      <span style="font-size: calc(10px * var(--fscale, 1));color:var(--text2)">Camilleri M, et al. · Am J Gastroenterol 2022;117(8):1197–1220 · doi: 10.14309/ajg.0000000000001874</span>
     </div>
-    <div style="font-size:10px;color:var(--text2);font-style:italic;">This tool is not officially endorsed by the American College of Gastroenterology (ACG).</div>
+    <div style="font-size: calc(10px * var(--fscale, 1));color:var(--text2);font-style:italic;">This tool is not officially endorsed by the American College of Gastroenterology (ACG).</div>
 
   </div>
 </header>
 
 <div class="tab-bar">
   <div class="tab-bar-inner">
+    <div id="font-zoom-btn" class="font-zoom-btn" onclick="cycleFontZoom()"><span class="fz-icon">🔠</span><span id="font-zoom-label">100%</span></div>
     <div class="tab active" onclick="showTab('overview')">🏠 개요</div>
     <div class="tab" onclick="showTab('diagnosis')">🔬 진단검사</div>
     <div class="tab" onclick="showTab('diet')">🥗 식이·영양</div>
@@ -125,9 +129,9 @@
     <div class="tab" onclick="showTab('tables')">📁 임상시험표</div>
     <div class="tab-abbr-wrap">
       <div style="position:relative;display:flex;align-items:center;flex-shrink:0">
-        <span style="position:absolute;left:8px;color:var(--text2);font-size:12px;pointer-events:none">🔍</span>
+        <span style="position:absolute;left:8px;color:var(--text2);font-size: calc(12px * var(--fscale, 1));pointer-events:none">🔍</span>
         <input id="abbr-input" type="text" placeholder="약어" oninput="filterAbbr(this.value)"
-          style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px 4px 26px;color:var(--text);font-size:12px;width:90px;outline:none;"
+          style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:4px 8px 4px 26px;color:var(--text);font-size: calc(12px * var(--fscale, 1));width:90px;outline:none;"
           onfocus="this.style.borderColor='var(--orange)'" onblur="this.style.borderColor='var(--border)'">
       </div>
       <div id="abbr-dropdown" style="display:none;position:fixed;background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:8px;width:440px;max-height:360px;overflow-y:auto;z-index:300;box-shadow:0 8px 24px rgba(0,0,0,.12)">
@@ -155,37 +159,37 @@
     <div class="card-body">
       <div class="flow-box" style="border-left:3px solid var(--orange)">
         <strong>① 위마비 증상 확인</strong><br>
-        <span style="color:var(--text2);font-size:11px">만성 오심, 구토, 식후 포만감, 팽만감, 상복부 불쾌감</span>
+        <span style="color:var(--text2);font-size: calc(11px * var(--fscale, 1))">만성 오심, 구토, 식후 포만감, 팽만감, 상복부 불쾌감</span>
       </div>
       <div class="flow-arrow">↓</div>
       <div class="flow-box" style="border-left:3px solid var(--red)">
         <strong>② 기계적 폐쇄 배제</strong><br>
-        <span style="color:var(--text2);font-size:11px">상부 위장관 내시경 (EGD) 또는 방사선 검사</span>
+        <span style="color:var(--text2);font-size: calc(11px * var(--fscale, 1))">상부 위장관 내시경 (EGD) 또는 방사선 검사</span>
       </div>
       <div class="flow-arrow">↓</div>
       <div class="flow-box" style="border-left:3px solid var(--accent2)">
         <strong>③ 위배출 지연 객관적 확인</strong><br>
-        <span style="font-size:11.5px">고체 식이 4시간 신티그라피 (표준) 또는 <sup>13</sup>C-spirulina 호기 검사 또는 무선 운동 캡슐</span>
+        <span style="font-size: calc(11.5px * var(--fscale, 1))">고체 식이 4시간 신티그라피 (표준) 또는 <sup>13</sup>C-spirulina 호기 검사 또는 무선 운동 캡슐</span>
       </div>
       <div class="flow-arrow">↓</div>
       <div class="flow-box" style="border-left:3px solid var(--green)">
         <strong>④ 식이 수정</strong><br>
-        <span style="font-size:11.5px">소입자·저지방·비소화성 식품 최소 식이</span>
+        <span style="font-size: calc(11.5px * var(--fscale, 1))">소입자·저지방·비소화성 식품 최소 식이</span>
       </div>
       <div class="flow-arrow">↓</div>
       <div class="flow-box" style="border-left:3px solid var(--yellow)">
         <strong>⑤ 약물치료</strong><br>
-        <span style="font-size:11.5px">위장관 촉진제 (메토클로프라미드, 돔페리돈, 5-HT4 효현제) + 제토제 (증상 조절)</span>
+        <span style="font-size: calc(11.5px * var(--fscale, 1))">위장관 촉진제 (메토클로프라미드, 돔페리돈, 5-HT4 효현제) + 제토제 (증상 조절)</span>
       </div>
       <div class="flow-arrow">↓</div>
       <div class="flow-box" style="border-left:3px solid var(--teal)">
         <strong>⑥ 영양 지원</strong><br>
-        <span style="font-size:11.5px">경장 영양 (공장 삽관) → 드물게 비경구 영양</span>
+        <span style="font-size: calc(11.5px * var(--fscale, 1))">경장 영양 (공장 삽관) → 드물게 비경구 영양</span>
       </div>
       <div class="flow-arrow">↓</div>
       <div class="flow-box" style="border-left:3px solid var(--purple)">
         <strong>⑦ 비약물 치료 (불응성)</strong><br>
-        <span style="font-size:11.5px">G-POEM 또는 복강경 유문성형술 | 위 전기 자극 (GES) | 감압 위루관·공장루관</span>
+        <span style="font-size: calc(11.5px * var(--fscale, 1))">G-POEM 또는 복강경 유문성형술 | 위 전기 자극 (GES) | 감압 위루관·공장루관</span>
       </div>
     </div>
   </div>
@@ -197,26 +201,26 @@
       </div>
       <div class="card-body">
         <ul class="rec-list">
-          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 1</strong> 당뇨 위마비: 혈당 최적화로 악화 위험 감소 <span style="color:var(--text2);font-size:10px">(Low)</span></span></li>
-          <li class="rec-item"><span class="badge badge-strong">강권고</span><span class="rec-text"><strong>Rec 2</strong> 신티그라피 위배출 검사 표준 — 고체 식이 3시간 이상 <span style="color:var(--text2);font-size:10px">(Moderate)</span></span></li>
-          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 3</strong> 방사선 불투과 표지자 검사 권고 안 함 <span style="color:var(--text2);font-size:10px">(Very Low)</span></span></li>
-          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 4</strong> 무선 운동 캡슐 — 신티그라피 대안 <span style="color:var(--text2);font-size:10px">(Low)</span></span></li>
-          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 5</strong> <sup>13</sup>C-spirulina 호기 검사 — 신뢰할 수 있는 검사 <span style="color:var(--text2);font-size:10px">(Low)</span></span></li>
-          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 6</strong> 소입자 식이로 증상 완화 및 위배출 향상 <span style="color:var(--text2);font-size:10px">(Low)</span></span></li>
-          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 7</strong> 약물치료 고려 (위배출 개선 + 증상 완화, 이득-위험 고려) <span style="color:var(--text2);font-size:10px">(Low)</span></span></li>
-          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 8</strong> 메토클로프라미드 — 불응성 증상 치료 <span style="color:var(--text2);font-size:10px">(Low)</span></span></li>
-          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 9</strong> 돔페리돈 — 승인 국가에서 사용 <span style="color:var(--text2);font-size:10px">(Low)</span></span></li>
-          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 10</strong> 5-HT4 효현제 — 위배출 개선 <span style="color:var(--text2);font-size:10px">(Low)</span></span></li>
-          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 11</strong> 제토제 — 증상 조절 (위배출은 개선 안 됨) <span style="color:var(--text2);font-size:10px">(Low)</span></span></li>
-          <li class="rec-item"><span class="badge badge-strong">강권고</span><span class="rec-text"><strong>Rec 12</strong> 중추 신경조절제 — 위마비 치료에 권고 안 함 <span style="color:var(--text2);font-size:10px">(Moderate)</span></span></li>
-          <li class="rec-item"><span class="badge badge-strong">강권고</span><span class="rec-text"><strong>Rec 13</strong> 그렐린 효현제 — 지지 안 함 <span style="color:var(--text2);font-size:10px">(Moderate)</span></span></li>
-          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 14</strong> 할로페리돌 — 지지 안 함 <span style="color:var(--text2);font-size:10px">(Low)</span></span></li>
-          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 15</strong> 위 전기 자극 (GES) — 인도적 사용기기로 고려 <span style="color:var(--text2);font-size:10px">(Low)</span></span></li>
-          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 16</strong> 침술 — 당뇨 위마비에서 단독 또는 촉진제 병용 유익 가능 <span style="color:var(--text2);font-size:10px">(Very Low)</span></span></li>
-          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 17</strong> Rikkunshito·STW5 (Iberogast) 한방 치료 — 권고 안 함 <span style="color:var(--text2);font-size:10px">(Low)</span></span></li>
-          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 18</strong> EndoFLIP — 유문 기능 평가·G-POEM 결과 예측에 역할 가능 <span style="color:var(--text2);font-size:10px">(Very Low)</span></span></li>
-          <li class="rec-item"><span class="badge badge-strong">강권고</span><span class="rec-text"><strong>Rec 19</strong> 보툴리눔 독소 유문부 주사 — RCT 근거로 권고 안 함 <span style="color:var(--text2);font-size:10px">(Moderate)</span></span></li>
-          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 20</strong> 유문근절개술 (G-POEM) — 약물 불응성 시 증상 조절 <span style="color:var(--text2);font-size:10px">(Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 1</strong> 당뇨 위마비: 혈당 최적화로 악화 위험 감소 <span style="color:var(--text2);font-size: calc(10px * var(--fscale, 1))">(Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-strong">강권고</span><span class="rec-text"><strong>Rec 2</strong> 신티그라피 위배출 검사 표준 — 고체 식이 3시간 이상 <span style="color:var(--text2);font-size: calc(10px * var(--fscale, 1))">(Moderate)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 3</strong> 방사선 불투과 표지자 검사 권고 안 함 <span style="color:var(--text2);font-size: calc(10px * var(--fscale, 1))">(Very Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 4</strong> 무선 운동 캡슐 — 신티그라피 대안 <span style="color:var(--text2);font-size: calc(10px * var(--fscale, 1))">(Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 5</strong> <sup>13</sup>C-spirulina 호기 검사 — 신뢰할 수 있는 검사 <span style="color:var(--text2);font-size: calc(10px * var(--fscale, 1))">(Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 6</strong> 소입자 식이로 증상 완화 및 위배출 향상 <span style="color:var(--text2);font-size: calc(10px * var(--fscale, 1))">(Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 7</strong> 약물치료 고려 (위배출 개선 + 증상 완화, 이득-위험 고려) <span style="color:var(--text2);font-size: calc(10px * var(--fscale, 1))">(Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 8</strong> 메토클로프라미드 — 불응성 증상 치료 <span style="color:var(--text2);font-size: calc(10px * var(--fscale, 1))">(Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 9</strong> 돔페리돈 — 승인 국가에서 사용 <span style="color:var(--text2);font-size: calc(10px * var(--fscale, 1))">(Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 10</strong> 5-HT4 효현제 — 위배출 개선 <span style="color:var(--text2);font-size: calc(10px * var(--fscale, 1))">(Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 11</strong> 제토제 — 증상 조절 (위배출은 개선 안 됨) <span style="color:var(--text2);font-size: calc(10px * var(--fscale, 1))">(Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-strong">강권고</span><span class="rec-text"><strong>Rec 12</strong> 중추 신경조절제 — 위마비 치료에 권고 안 함 <span style="color:var(--text2);font-size: calc(10px * var(--fscale, 1))">(Moderate)</span></span></li>
+          <li class="rec-item"><span class="badge badge-strong">강권고</span><span class="rec-text"><strong>Rec 13</strong> 그렐린 효현제 — 지지 안 함 <span style="color:var(--text2);font-size: calc(10px * var(--fscale, 1))">(Moderate)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 14</strong> 할로페리돌 — 지지 안 함 <span style="color:var(--text2);font-size: calc(10px * var(--fscale, 1))">(Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 15</strong> 위 전기 자극 (GES) — 인도적 사용기기로 고려 <span style="color:var(--text2);font-size: calc(10px * var(--fscale, 1))">(Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 16</strong> 침술 — 당뇨 위마비에서 단독 또는 촉진제 병용 유익 가능 <span style="color:var(--text2);font-size: calc(10px * var(--fscale, 1))">(Very Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 17</strong> Rikkunshito·STW5 (Iberogast) 한방 치료 — 권고 안 함 <span style="color:var(--text2);font-size: calc(10px * var(--fscale, 1))">(Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 18</strong> EndoFLIP — 유문 기능 평가·G-POEM 결과 예측에 역할 가능 <span style="color:var(--text2);font-size: calc(10px * var(--fscale, 1))">(Very Low)</span></span></li>
+          <li class="rec-item"><span class="badge badge-strong">강권고</span><span class="rec-text"><strong>Rec 19</strong> 보툴리눔 독소 유문부 주사 — RCT 근거로 권고 안 함 <span style="color:var(--text2);font-size: calc(10px * var(--fscale, 1))">(Moderate)</span></span></li>
+          <li class="rec-item"><span class="badge badge-cond">조건부</span><span class="rec-text"><strong>Rec 20</strong> 유문근절개술 (G-POEM) — 약물 불응성 시 증상 조절 <span style="color:var(--text2);font-size: calc(10px * var(--fscale, 1))">(Low)</span></span></li>
         </ul>
       </div>
     </div>
@@ -280,7 +284,7 @@
     </div>
     <div class="acc-body">
       <div class="alert alert-danger"><span>🚫</span><span>방사선 불투과 표지자(ROM) 검사는 위마비 진단에 권고하지 않는다.</span></div>
-      <p style="font-size:12px;margin-top:6px">ROM 민감도 34%, 특이도 97% — 증상 중증도와 상관관계 없음. 신티그라피가 소화성 고체 음식 배출을 더 정확히 반영.</p>
+      <p style="font-size: calc(12px * var(--fscale, 1));margin-top:6px">ROM 민감도 34%, 특이도 97% — 증상 중증도와 상관관계 없음. 신티그라피가 소화성 고체 음식 배출을 더 정확히 반영.</p>
     </div>
   </div>
 
@@ -292,7 +296,7 @@
       <div class="alert alert-info"><span>💊</span><span>WMC는 신티그라피의 대안 검사로 사용 가능하다.</span></div>
       <div class="grid2" style="margin-top:8px">
         <div>
-          <p style="font-size:12px;font-weight:600;margin-bottom:4px">WMC 장점</p>
+          <p style="font-size: calc(12px * var(--fscale, 1));font-weight:600;margin-bottom:4px">WMC 장점</p>
           <ul class="dot">
             <li>위 수축 진폭 측정 가능 (pH 변화로 유문 통과 시점 확인)</li>
             <li>전 소화관 통과 평가 가능 (위 + 소장 + 대장)</li>
@@ -300,7 +304,7 @@
           </ul>
         </div>
         <div>
-          <p style="font-size:12px;font-weight:600;margin-bottom:4px">WMC 주의사항</p>
+          <p style="font-size: calc(12px * var(--fscale, 1));font-weight:600;margin-bottom:4px">WMC 주의사항</p>
           <ul class="dot">
             <li>신티그라피와 전체 일치율 75.7% (kappa=0.42)</li>
             <li>비당뇨 환자: WMC 33.3% vs 신티그라피 17.1% 지연 검출</li>
@@ -374,7 +378,7 @@
       <div class="flow-box" style="border-left:3px solid var(--yellow)">
         <strong>2단계: 공장 경관 영양 (Jejunostomy tube)</strong><br>
         공장 삽관 전 경구 식이 + 공장 영양의 시행 → 경구 섭취 및 운동성 유의한 개선<br>
-        <span style="font-size:11px;color:var(--text2)">※ 경피 내시경 위루관 + 공장 연장 (PEG-J): 위장으로의 역류 방지 위해 커넥터 봉합·풍선 경위 공장 급식 장치 변형 적용</span>
+        <span style="font-size: calc(11px * var(--fscale, 1));color:var(--text2)">※ 경피 내시경 위루관 + 공장 연장 (PEG-J): 위장으로의 역류 방지 위해 커넥터 봉합·풍선 경위 공장 급식 장치 변형 적용</span>
       </div>
       <div class="flow-arrow">↓ 고도 진행 사례</div>
       <div class="flow-box" style="border-left:3px solid var(--red)">
@@ -392,7 +396,7 @@
     <div class="card-body">
       <div class="grid2">
         <div>
-          <p style="font-size:12px;font-weight:700;color:var(--green);margin-bottom:6px">✅ 권장 식이</p>
+          <p style="font-size: calc(12px * var(--fscale, 1));font-weight:700;color:var(--green);margin-bottom:6px">✅ 권장 식이</p>
           <ul class="dot">
             <li>소입자 또는 갈아서 조리한 음식</li>
             <li>저지방 식품 (지방 &lt;40 g/일)</li>
@@ -403,7 +407,7 @@
           </ul>
         </div>
         <div>
-          <p style="font-size:12px;font-weight:700;color:var(--red);margin-bottom:6px">🚫 피해야 할 식품</p>
+          <p style="font-size: calc(12px * var(--fscale, 1));font-weight:700;color:var(--red);margin-bottom:6px">🚫 피해야 할 식품</p>
           <ul class="dot">
             <li>고지방 음식 (지방 함량 높은 식품)</li>
             <li>고섬유 비소화성 음식 (생채소, 껍질 있는 과일)</li>
@@ -428,7 +432,7 @@
     </div>
     <div class="acc-body">
       <div class="alert alert-teal"><span>💊</span><span>특발성·당뇨 위마비에서 약물치료는 위배출 개선 및 증상 완화를 위해 이득-위험을 고려하여 시도해야 한다.</span></div>
-      <p style="font-size:12px;margin-top:6px"><strong>약물 반응 예측 인자:</strong></p>
+      <p style="font-size: calc(12px * var(--fscale, 1));margin-top:6px"><strong>약물 반응 예측 인자:</strong></p>
       <div class="grid2" style="margin-top:6px">
         <div>
           <div class="alert alert-success"><span>✅</span><span><strong>반응 좋은 군:</strong> 바이러스성·소화불량성 특발성, 파킨슨병, 당뇨 환자 대다수</span></div>
@@ -448,7 +452,7 @@
       <div class="alert alert-warn"><span>⚠️</span><span><strong>권고:</strong> 불응성 위마비 증상에서 치료 안 함보다 메토클로프라미드 사용을 권고. <strong>FDA Black Box 경고</strong>: 지발성 운동장애 위험.</span></div>
       <div class="grid2" style="margin-top:8px">
         <div>
-          <p style="font-size:12px;font-weight:600;margin-bottom:4px">효능 근거</p>
+          <p style="font-size: calc(12px * var(--fscale, 1));font-weight:600;margin-bottom:4px">효능 근거</p>
           <ul class="dot">
             <li>당뇨 위마비에서 다수 RCT로 증상 개선 및 위배출 가속 확인</li>
             <li>비강 스프레이 제형 (10 mg, 20 mg): 경구 10 mg 대비 증상 점수 개선</li>
@@ -457,7 +461,7 @@
           </ul>
         </div>
         <div>
-          <p style="font-size:12px;font-weight:600;margin-bottom:4px">안전성·제한</p>
+          <p style="font-size: calc(12px * var(--fscale, 1));font-weight:600;margin-bottom:4px">안전성·제한</p>
           <ul class="dot">
             <li><strong>지발성 운동장애 위험: ~0.1%/1000 인년</strong> (이전 1–10% 추정보다 훨씬 낮음)</li>
             <li>FDA 제한: &lt;12주 사용, &lt;65세, 10 mg 3–4회/일 초과 금지</li>
@@ -574,7 +578,7 @@
     </div>
     <div class="acc-body">
       <div class="alert alert-warn"><span>⚠️</span><span>현재 데이터는 할로페리돌의 위마비 치료 사용을 지지하지 않는다.</span></div>
-      <p style="font-size:12px;margin-top:6px">응급실 RCT (33명): 통증·오심 점수 개선 확인 → 위마비 증상 완화가 아닌 응급실 내 증상 조절 및 모르핀 사용 감소에 대한 근거일 뿐, 위마비 치료 효과가 아님.</p>
+      <p style="font-size: calc(12px * var(--fscale, 1));margin-top:6px">응급실 RCT (33명): 통증·오심 점수 개선 확인 → 위마비 증상 완화가 아닌 응급실 내 증상 조절 및 모르핀 사용 감소에 대한 근거일 뿐, 위마비 치료 효과가 아님.</p>
     </div>
   </div>
 
@@ -606,7 +610,7 @@
       <div class="alert alert-teal"><span>⚡</span><span><strong>권고:</strong> GES는 인도적 사용기기 (HUD)로 위마비 증상 조절에 고려 가능. 약물 불응성 당뇨 또는 특발성 위마비에 FDA HUD 승인.</span></div>
       <div class="grid2" style="margin-top:8px">
         <div>
-          <p style="font-size:12px;font-weight:600;margin-bottom:4px">임상 근거 (긍정적)</p>
+          <p style="font-size: calc(12px * var(--fscale, 1));font-weight:600;margin-bottom:4px">임상 근거 (긍정적)</p>
           <ul class="dot">
             <li>무작위 교차 시험 (172명): 구토 빈도 유의 감소, 오심·식욕 개선 (ON vs OFF)</li>
             <li>당뇨 GP에서 6주 치료: 구토·증상 유의 감소</li>
@@ -616,7 +620,7 @@
           </ul>
         </div>
         <div>
-          <p style="font-size:12px;font-weight:600;margin-bottom:4px">제한·주의사항</p>
+          <p style="font-size: calc(12px * var(--fscale, 1));font-weight:600;margin-bottom:4px">제한·주의사항</p>
           <ul class="dot">
             <li>메타분석: 무작위 교차 시험에서 ON/OFF 기간 TSS 차이 없음 (공개 연구에서는 개선)</li>
             <li>시험 설계 이질성으로 결과 해석 한계</li>
@@ -684,7 +688,7 @@
       <div class="alert alert-teal"><span>🔬</span><span><strong>권고:</strong> EndoFLIP은 유문 기능 특성화 및 G-POEM 치료 결과 예측에 역할 가능.</span></div>
       <div class="grid2" style="margin-top:8px">
         <div>
-          <p style="font-size:12px;font-weight:600;margin-bottom:4px">EndoFLIP 주요 소견</p>
+          <p style="font-size: calc(12px * var(--fscale, 1));font-weight:600;margin-bottom:4px">EndoFLIP 주요 소견</p>
           <ul class="dot">
             <li>위마비에서 공복 유문 순응도 감소: 25.2 (정상) vs 16.9 mm/mmHg (위마비)</li>
             <li>위배출 지연이 있는 환자에서 유문 팽창성지수 (DI) 유의 감소</li>
@@ -692,7 +696,7 @@
           </ul>
         </div>
         <div>
-          <p style="font-size:12px;font-weight:600;margin-bottom:4px">G-POEM 결과 예측</p>
+          <p style="font-size: calc(12px * var(--fscale, 1));font-weight:600;margin-bottom:4px">G-POEM 결과 예측</p>
           <ul class="dot">
             <li>G-POEM 성공군에서 술 후 CSA·DI 유의 상승</li>
             <li>50 mL EndoFLIP 팽창 기준 DI &gt;9.2 mm²/mmHg: 특이도 100%, 민감도 72.2%</li>
@@ -725,7 +729,7 @@
       <div class="alert alert-success"><span>✅</span><span><strong>권고:</strong> 약물 불응성 위마비에서 치료 안 함보다 유문근절개술 (G-POEM)을 권고.</span></div>
       <div class="grid2" style="margin-top:8px">
         <div>
-          <p style="font-size:12px;font-weight:600;margin-bottom:4px">G-POEM 효능</p>
+          <p style="font-size: calc(12px * var(--fscale, 1));font-weight:600;margin-bottom:4px">G-POEM 효능</p>
           <ul class="dot">
             <li>메타분석 (14개 연구, 276명): 위배출 정상화율 61.3%; 증상 개선율 88.2%</li>
             <li>GCSI 개선율: 1개월 90.2% → 3개월 83.3% → 6개월 70.3% → 12개월 52.4%</li>
@@ -734,7 +738,7 @@
           </ul>
         </div>
         <div>
-          <p style="font-size:12px;font-weight:600;margin-bottom:4px">안전성 및 비교</p>
+          <p style="font-size: calc(12px * var(--fscale, 1));font-weight:600;margin-bottom:4px">안전성 및 비교</p>
           <ul class="dot">
             <li>전체 이상반응률 6.8–12% (캡노복강·점막 손상·출혈 등)</li>
             <li>수술 유문성형술과 효능 동등 (G-POEM 75.8% vs 수술 77.3% 임상 성공)</li>
@@ -848,6 +852,20 @@
 </div><!-- /main -->
 
 <script>
+const FONT_ZOOM_LEVELS = [1, 1.25, 1.5];
+let fontZoomIndex = 0;
+
+function applyFontZoom(scale) {
+  document.documentElement.style.setProperty('--fscale', scale);
+  const label = document.getElementById('font-zoom-label');
+  if (label) label.textContent = Math.round(scale * 100) + '%';
+}
+
+function cycleFontZoom() {
+  fontZoomIndex = (fontZoomIndex + 1) % FONT_ZOOM_LEVELS.length;
+  applyFontZoom(FONT_ZOOM_LEVELS[fontZoomIndex]);
+}
+
 function showTab(id){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
@@ -897,8 +915,8 @@ function buildAbbr(){
   const sorted=abbrs.slice().sort((a,b)=>a[0].localeCompare(b[0]));
   document.getElementById('abbr-grid-drop').innerHTML=sorted.map(a=>
     `<div style="background:var(--surface2);border:1px solid var(--border);border-radius:5px;padding:6px 10px;margin-bottom:4px;" data-term="${a[0].toLowerCase()}" data-def="${a[1].toLowerCase()}">
-       <span style="font-weight:700;color:var(--orange);font-size:12px;font-family:'Courier New',monospace">${a[0]}</span>
-       <div style="font-size:11px;color:var(--text2);line-height:1.45;margin-top:2px">${a[1]}</div>
+       <span style="font-weight:700;color:var(--orange);font-size: calc(12px * var(--fscale, 1));font-family:'Courier New',monospace">${a[0]}</span>
+       <div style="font-size: calc(11px * var(--fscale, 1));color:var(--text2);line-height:1.45;margin-top:2px">${a[1]}</div>
      </div>`).join('');
 }
 function filterAbbr(val){
